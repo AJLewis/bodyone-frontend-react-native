@@ -4,6 +4,8 @@ import designTokens from "designTokens";
 type AdditionalColors = {
   tabBorder: string;
   headerBackground: string,
+  premiumGold: string,
+  darkGold: string
 };
 
 // 2. Create a new type that extends the original Theme and merges the new colors

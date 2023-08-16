@@ -101,6 +101,7 @@ export default function TabLayout() {
                                 </Pressable>
                             </Link>
                         ),
+                        headerShown: false
                     }}
                 />
                 <Tabs.Screen
@@ -113,6 +114,7 @@ export default function TabLayout() {
                                 color={color}
                             />
                         ),
+                        headerShown: false
                     }}
                 />
                 <Tabs.Screen
@@ -148,6 +150,7 @@ export default function TabLayout() {
                                 })}
                             />
                         ),
+                        headerShown: false
                     }}
                 />
                 <Tabs.Screen
@@ -163,6 +166,7 @@ export default function TabLayout() {
                                 />
                             </View>
                         ),
+                        headerShown: false
                     }}
                 />
                 <Tabs.Screen
@@ -176,6 +180,7 @@ export default function TabLayout() {
                                 color={color}
                             />
                         ),
+                        headerShown: false
                     }}
                 />
             </Tabs>

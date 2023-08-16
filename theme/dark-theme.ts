@@ -12,6 +12,8 @@ export const DarkTheme: CustomTheme = {
     border: designTokens.colors.tertiary400,
     notification: designTokens.colors.highlightRed,
     tabBorder: designTokens.colors.tertiary400,
-    headerBackground: designTokens.colors.tertiary400
+    headerBackground: designTokens.colors.tertiary400,
+    premiumGold: designTokens.colors.highlightPremium,
+    darkGold: designTokens.colors.highlightPts
   }
 };

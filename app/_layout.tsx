@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { DarkTheme } from '../theme/dark-theme';
 import { DefaultTheme } from '../theme/default-theme';
+import Header  from './components/header/header';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -50,7 +51,7 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ header: () => <Header />}} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>
