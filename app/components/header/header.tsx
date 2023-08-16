@@ -1,14 +1,14 @@
 import React from 'react';
-import { View, Text, SafeAreaView, StyleSheet, Pressable, Alert, StatusBar, Platform, useColorScheme, } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, Pressable, Alert, StatusBar, Platform, useColorScheme, Image } from 'react-native';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import { Feather, MaterialCommunityIcons, } from '@expo/vector-icons';
 import {CustomTheme} from '../../../theme/ICustomTheme';
-import Pill from '../pill/pill'
-import IconWithCount from '../icon-with-count/icon-with-count'
+import Pill from '../pill/pill';
+import { SvgUri } from 'react-native-svg';
+import IconWithCount from '../icon-with-count/icon-with-count';
+import Logo from '../../../assets/images/logo.png';
 
 const Header = () => {
-    const navigation = useNavigation();
-    const colorScheme = useColorScheme();
     const {colors} = useTheme() as CustomTheme;
 
     const handleHamburgerPress = () => {
@@ -58,7 +58,9 @@ const Header = () => {
                 />
 
                 {/* Logo */}
-                <Text style={styles.logo}>Your Logo Here</Text>
+                <View style={{...styles.logo, alignItems: 'center', justifyContent: 'center' }}>
+                    <Image source={Logo} style={{ width: 100, height: 28 }} />
+                </View>
 
                 <Pressable onPress={handlePillPress}>
                     {/* Pill Component */}
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
     logo: {
         fontSize: 20,
         fontWeight: 'bold',
-        marginHorizontal: 15,
+        marginHorizontal: 25,
     },
 });
 
