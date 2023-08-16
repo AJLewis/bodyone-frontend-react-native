@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { StyleSheet, Text } from 'react-native';
 import { Animated } from 'react-native';
-import { Link, Slot, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 
 export default function TabOneScreen() {
     const [opacity] = useState(new Animated.Value(0));

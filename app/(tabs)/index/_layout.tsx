@@ -1,24 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { StyleSheet, Text } from 'react-native';
 import { Animated } from 'react-native';
-import { Link, Slot, Stack } from 'expo-router';
-
-import { useNavigation, useRoute } from '@react-navigation/native';
-
+import { Stack } from 'expo-router';
 export default function TabOneScreen() {
     const [opacity] = useState(new Animated.Value(0));
-    const navigation = useNavigation();
-    const route = useRoute();
-  
-    useEffect(() => {
-      const unsubscribe = navigation.addListener('state', () => {
-        console.log('Current route name:', route);
-      });
-  
-      // Return the unsubscribe function to clean up the listener
-      return unsubscribe;
-    }, [navigation, route]);
 
     const fadeIn = () => {
       // Reset the opacity to 0
