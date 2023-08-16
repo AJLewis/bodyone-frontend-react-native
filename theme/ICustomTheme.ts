@@ -1,0 +1,12 @@
+import { Theme as DefaultTheme } from "@react-navigation/native";
+import designTokens from "designTokens";
+
+type AdditionalColors = {
+  tabBorder: string;
+  headerBackground: string,
+};
+
+// 2. Create a new type that extends the original Theme and merges the new colors
+export interface CustomTheme extends Omit<DefaultTheme, 'colors'> {
+  colors: DefaultTheme['colors'] & AdditionalColors;
+}
