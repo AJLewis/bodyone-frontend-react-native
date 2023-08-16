@@ -23,7 +23,7 @@ function handleTabPress(
         const activeStackIndex = activeTab.state.index;
         const activeStackRoute = activeTab.state.routes[activeStackIndex];
 
-        if (defaultRoute == activeStackRoute.name) {
+        if (defaultRoute == activeStackRoute?.name) {
             navigation.navigate(defaultRoute, {screen: defaultScreen});
             return;
         }
