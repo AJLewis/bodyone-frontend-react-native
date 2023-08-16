@@ -107,7 +107,7 @@ export default function TabLayout() {
                     listeners={({ route }) => ({
                         tabPress: (e:any) => {
                           e.preventDefault();
-                          handleTabPress('index', navigation, ['index', 'test'], 'index');
+                          handleTabPress('index', navigation, ['index', 'test'], 'index', 'index');
                         },
                       })}
                 />
@@ -126,7 +126,7 @@ export default function TabLayout() {
                     listeners={({ route }) => ({
                         tabPress: (e:any) => {
                           e.preventDefault();
-                          handleTabPress('health', navigation, ['index', 'test'], 'health');
+                          handleTabPress('health', navigation, ['index', 'test'], 'health', 'index');
                         },
                       })}
                 />
@@ -168,7 +168,7 @@ export default function TabLayout() {
                     listeners={({ route }) => ({
                         tabPress: (e:any) => {
                           e.preventDefault();
-                          handleTabPress('add', navigation, ['index', 'test'], 'add');
+                          handleTabPress('add', navigation, ['index', 'test'], 'add', 'index');
                         },
                       })}
                 />
@@ -190,7 +190,7 @@ export default function TabLayout() {
                     listeners={({ route }) => ({
                         tabPress: (e:any) => {
                           e.preventDefault();
-                          handleTabPress('coach', navigation, ['index', 'test'], 'coach');
+                          handleTabPress('coach', navigation, ['index', 'test'], 'coach', 'index');
                         },
                       })}
                 />
@@ -210,7 +210,7 @@ export default function TabLayout() {
                     listeners={({ route }) => ({
                         tabPress: (e:any) => {
                           e.preventDefault();
-                          handleTabPress('more', navigation, ['index', 'test'], 'more');
+                          handleTabPress('more', navigation, ['index', 'test'], 'more', 'index');
                         },
                       })}
                 />
