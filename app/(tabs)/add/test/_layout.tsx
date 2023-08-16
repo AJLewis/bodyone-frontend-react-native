@@ -1,9 +1,35 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, Text, Animated, View } from 'react-native';
 import ReusableScreen from '../../../screens/test/_layout';
+import { useFocusEffect } from 'expo-router';
 
-export default function TabOneScreen() {
+export default function AddTest() {
+    const opacity = useRef(new Animated.Value(0)).current;
+
+    const fadeIn = () => {
+        opacity.setValue(0); // Reset the opacity to 0 before starting the animation
+        Animated.timing(opacity, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    useFocusEffect(
+        React.useCallback(() => {
+            fadeIn();
+        }, [])
+    );
+
     return (
-        <ReusableScreen title="Tab Three - Test" message="Click to test navigation" link="index" /> 
+        <Animated.View style={{ ...styles.container, opacity }}>
+            <ReusableScreen title="Add - Test" message="Click to test navigation" link="index" /> 
+        </Animated.View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+});

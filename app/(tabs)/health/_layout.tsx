@@ -3,6 +3,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import { StyleSheet, Text } from 'react-native';
 import { Animated } from 'react-native';
 import { Stack } from 'expo-router';
+import HealthIndex from './index/_layout';
+import HealthTest from './test/_layout';
 
 export default function TabOneScreen() {
     const [opacity] = useState(new Animated.Value(0));

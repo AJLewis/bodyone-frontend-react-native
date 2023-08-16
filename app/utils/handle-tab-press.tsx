@@ -1,0 +1,22 @@
+/**
+ * Handle tab press based on the provided route name.
+ * 
+ * @param {string} routeName - The name of the route to navigate to.
+ * @param {object} navigation - The navigation object from React Navigation.
+ * @param {string[]} routes - An array of valid routes for the tab.
+ * @param {string} defaultRoute - The default route to navigate to if the provided routeName is not in the routes array.
+ */
+ function handleTabPress(routeName: string, navigation: any, routes: string[], defaultRoute: string) {
+  if (routes.includes(routeName)) {
+    if (routeName.includes('/')) {
+      const [navigatorName, screenName] = routeName.split('/');
+      navigation.navigate(navigatorName, { screen: screenName });
+    } else {
+      navigation.navigate(routeName);
+    }
+  } else {
+    navigation.navigate(defaultRoute); // Default to the root of the specified tab
+  }
+}
+
+export default handleTabPress;

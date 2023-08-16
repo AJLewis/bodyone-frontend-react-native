@@ -10,6 +10,7 @@ import { CustomTheme } from 'theme/ICustomTheme';
 import { Tab } from 'native-base';
 import React, { useEffect } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import handleTabPress from '../utils/handle-tab-press';
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
@@ -103,6 +104,12 @@ export default function TabLayout() {
                         ),
                         headerShown: false
                     }}
+                    listeners={({ route }) => ({
+                        tabPress: (e:any) => {
+                          e.preventDefault();
+                          handleTabPress('index', navigation, ['index', 'test'], 'index');
+                        },
+                      })}
                 />
                 <Tabs.Screen
                     name="health"
@@ -116,6 +123,12 @@ export default function TabLayout() {
                         ),
                         headerShown: false
                     }}
+                    listeners={({ route }) => ({
+                        tabPress: (e:any) => {
+                          e.preventDefault();
+                          handleTabPress('health', navigation, ['index', 'test'], 'health');
+                        },
+                      })}
                 />
                 <Tabs.Screen
                     name="add"
@@ -152,6 +165,12 @@ export default function TabLayout() {
                         ),
                         headerShown: false
                     }}
+                    listeners={({ route }) => ({
+                        tabPress: (e:any) => {
+                          e.preventDefault();
+                          handleTabPress('add', navigation, ['index', 'test'], 'add');
+                        },
+                      })}
                 />
                 <Tabs.Screen
                     name="coach"
@@ -168,6 +187,12 @@ export default function TabLayout() {
                         ),
                         headerShown: false
                     }}
+                    listeners={({ route }) => ({
+                        tabPress: (e:any) => {
+                          e.preventDefault();
+                          handleTabPress('coach', navigation, ['index', 'test'], 'coach');
+                        },
+                      })}
                 />
                 <Tabs.Screen
                     name="more"
@@ -182,6 +207,12 @@ export default function TabLayout() {
                         ),
                         headerShown: false
                     }}
+                    listeners={({ route }) => ({
+                        tabPress: (e:any) => {
+                          e.preventDefault();
+                          handleTabPress('more', navigation, ['index', 'test'], 'more');
+                        },
+                      })}
                 />
             </Tabs>
         </>
