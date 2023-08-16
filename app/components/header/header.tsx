@@ -68,7 +68,7 @@ const Header = () => {
                         text="500"
                         textColor={colors.text}
                         backgroundColor={colors.darkGold}
-                        textSize={10}
+                        textSize={12}
                     />
                 </Pressable>
 
