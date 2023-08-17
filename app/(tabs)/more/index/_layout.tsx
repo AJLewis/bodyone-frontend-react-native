@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { StyleSheet, Text, Animated, View, Button } from 'react-native';
-import ReusableScreen from '../../../screens/test/_layout';
-import { Link, useFocusEffect, useNavigation } from 'expo-router';
+import React, { useRef } from 'react';
+import { StyleSheet, Animated } from 'react-native';
+import ReusableScreen from '../../../../screens/test/_layout';
+import { useFocusEffect } from 'expo-router';
 
 export default function MoreIndex() {
     const opacity = useRef(new Animated.Value(0)).current;

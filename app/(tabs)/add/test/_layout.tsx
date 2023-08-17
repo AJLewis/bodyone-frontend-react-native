@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { StyleSheet, Text, Animated, View } from 'react-native';
-import ReusableScreen from '../../../screens/test/_layout';
+import ReusableScreen from '../../../../screens/test/_layout';
 import { useFocusEffect } from 'expo-router';
 
 export default function AddTest() {
@@ -23,7 +23,7 @@ export default function AddTest() {
 
     return (
         <Animated.View style={{ ...styles.container, opacity }}>
-            <ReusableScreen title="Add - Test" message="Click to test navigation" link="index" /> 
+            <ReusableScreen title="Add - Test" message="Click to test navigation" link="home" /> 
         </Animated.View>
     );
 }

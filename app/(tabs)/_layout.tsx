@@ -8,7 +8,7 @@ import Colors from '../../constants/Colors';
 import { useTheme } from '@react-navigation/native';
 import { CustomTheme } from 'theme/ICustomTheme';
 import React from 'react';
-import handleTabPress from '../utils/handle-tab-press';
+import handleTabPress from '../../utils/HandleTabPress';
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */

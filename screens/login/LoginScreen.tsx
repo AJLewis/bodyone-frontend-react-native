@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
-import { login } from '../../../services/AuthService';
+import { login } from '../../services/AuthService';
 
 // @ts-ignore
 function LoginScreen({ navigation }) {

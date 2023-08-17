@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { StyleSheet, Text, Animated, View, Button } from 'react-native';
-import ReusableScreen from '../../../screens/test/_layout';
+import ReusableScreen from '../../../../screens/test/_layout';
 import { Link, useFocusEffect, useNavigation } from 'expo-router';
 
 export default function IndexTest() {

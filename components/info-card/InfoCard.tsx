@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, Text, Image, LayoutChangeEvent } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { CustomTheme } from '../../../theme/ICustomTheme';
+import { CustomTheme } from '../../theme/ICustomTheme';
 import { useTheme } from '@react-navigation/native';
 
 export interface InfoCardProps {

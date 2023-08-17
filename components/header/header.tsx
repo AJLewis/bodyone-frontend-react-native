@@ -2,11 +2,10 @@ import React from 'react';
 import { View, Text, SafeAreaView, StyleSheet, Pressable, Alert, StatusBar, Platform, useColorScheme, Image } from 'react-native';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import { Feather, MaterialCommunityIcons, } from '@expo/vector-icons';
-import {CustomTheme} from '../../../theme/ICustomTheme';
+import {CustomTheme} from '../../theme/ICustomTheme';
 import Pill from '../pill/pill';
-import { SvgUri } from 'react-native-svg';
 import IconWithCount from '../icon-with-count/icon-with-count';
-import Logo from '../../../assets/images/logo.png';
+import Logo from '../../assets/images/logo.png';
 
 const Header = () => {
     const {colors} = useTheme() as CustomTheme;

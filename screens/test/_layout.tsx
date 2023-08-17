@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, Pressable, Animated, View, useColorScheme } from 'react-native';
 import { useNavigation, useTheme } from '@react-navigation/native';
-import { CustomTheme } from '../../../theme/ICustomTheme';
-import NavigateByPath from '../../utils/navigate-by-path';
+import { CustomTheme } from '../../theme/ICustomTheme';
+import NavigateByPath from '../../utils/NavigateByPath';
 
 interface ReusableScreenProps {
     title: string;

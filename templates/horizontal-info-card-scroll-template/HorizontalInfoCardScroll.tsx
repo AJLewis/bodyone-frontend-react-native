@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, ScrollView, LayoutChangeEvent } from 'react-native';
-import { CustomTheme } from '../../../theme/ICustomTheme';
+import { CustomTheme } from '../../theme/ICustomTheme';
 import { useTheme } from '@react-navigation/native';
 import InfoCard from '../../components/info-card/InfoCard'; // Adjust the path as needed
-import { InfoCardProps } from 'app/components/info-card/InfoCard';
+import { InfoCardProps } from 'components/info-card/InfoCard';
 
 interface HorizontalInfoCardScrollProps {
   title: string;
