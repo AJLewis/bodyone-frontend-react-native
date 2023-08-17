@@ -59,7 +59,7 @@ const Header = () => {
 
                 {/* Logo */}
                 <View style={{...styles.logo, alignItems: 'center', justifyContent: 'center' }}>
-                    <Image source={Logo} style={{ width: 100, height: 28 }} />
+                    <Image source={Logo} style={{ width: 100, height: 32 }} />
                 </View>
 
                 <Pressable onPress={handlePillPress}>
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginHorizontal: 25,
+        marginTop:3
     },
 });
 

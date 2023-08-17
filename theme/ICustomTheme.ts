@@ -5,7 +5,9 @@ type AdditionalColors = {
   tabBorder: string;
   headerBackground: string,
   premiumGold: string,
-  darkGold: string
+  darkGold: string,
+  greenBackground: string,
+  green: string;
 };
 
 // 2. Create a new type that extends the original Theme and merges the new colors

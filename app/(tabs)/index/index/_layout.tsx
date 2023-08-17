@@ -2,29 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import { StyleSheet, Text, Animated, View, Button } from 'react-native';
 import ReusableScreen from '../../../screens/test/_layout';
 import { Link, useFocusEffect, useNavigation } from 'expo-router';
+import Home from '../../../screens/home/_layout';
 
 export default function IndexIndex() {
-    const opacity = useRef(new Animated.Value(0)).current;
-
-    const fadeIn = () => {
-        opacity.setValue(0); // Reset the opacity to 0 before starting the animation
-        Animated.timing(opacity, {
-            toValue: 1,
-            duration: 300,
-            useNativeDriver: true,
-        }).start();
-    };
-
-    useFocusEffect(
-        React.useCallback(() => {
-            fadeIn();
-        }, [])
-    );
 
     return (
-        <Animated.View style={{ ...styles.container, opacity }}>
-            <ReusableScreen title="Index - Home" message="Click to test navigation" link="test" /> 
-        </Animated.View>
+            <Home />
     );
 }
 

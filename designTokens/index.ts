@@ -22,6 +22,7 @@ const designTokens = {
     tertiary600: '#001a2b',
     tertiary700: '#02131f',
     hightlightRadiusCharts: '#00ffff',
+    backgroundGreen: '#06712A',
     highlightGreen: '#00c44f',
     highlightPremium: '#ecc334',
     highlightPts: '#c39c11',

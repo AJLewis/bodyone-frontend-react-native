@@ -1,5 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import {Link, Stack, Tabs} from 'expo-router';
+import {Link, Stack, Tabs, useNavigation} from 'expo-router';
 import {AntDesign} from '@expo/vector-icons';
 import {Feather} from '@expo/vector-icons';
 import { Pressable, View, useColorScheme, } from 'react-native';
@@ -7,9 +7,7 @@ import * as NavigationBar from 'expo-navigation-bar';
 import Colors from '../../constants/Colors';
 import { useTheme } from '@react-navigation/native';
 import { CustomTheme } from 'theme/ICustomTheme';
-import { Tab } from 'native-base';
-import React, { useEffect } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React from 'react';
 import handleTabPress from '../utils/handle-tab-press';
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -33,18 +31,8 @@ export default function TabLayout() {
     const { colors } = useTheme() as CustomTheme;
     NavigationBar.setVisibilityAsync('hidden');
 
+  
     const navigation = useNavigation();
-    const route = useRoute();
-  
-    useEffect(() => {
-      const unsubscribe = navigation.addListener('state', () => {
-        console.log('Current route name:', route.name);
-      });
-  
-      // Return the unsubscribe function to clean up the listener
-      return unsubscribe;
-    }, [navigation, route]);
-
     return (
         <>
             <Tabs
