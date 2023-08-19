@@ -7,6 +7,7 @@ import { useColorScheme } from 'react-native';
 import { DarkTheme } from '../theme/dark-theme';
 import { DefaultTheme } from '../theme/default-theme';
 import Header  from '../components/header/header';
+import { UserProvider } from '../contexts/UserContext';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -15,7 +16,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
+  initialRouteName: '(auth)',
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -49,11 +50,16 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
  
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ header: () => <Header />}} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
-    </ThemeProvider>
+    <UserProvider>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <>
+        <Stack>
+          <Stack.Screen name="tabs" options={{ header: () => <Header />}} />
+          <Stack.Screen name="(auth)" options={{headerShown: false}} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        </Stack>
+        </>
+      </ThemeProvider>
+    </UserProvider>
   );
 }

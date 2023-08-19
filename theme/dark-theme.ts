@@ -8,6 +8,7 @@ export const DarkTheme: CustomTheme = {
     primary: designTokens.colors.primary500,
     background: designTokens.colors.tertiary600,
     card: designTokens.colors.tertiary400,
+    dropdownBackground: designTokens.colors.tertiary500,
     text: designTokens.colors.lightFontDefault,
     border: designTokens.colors.tertiary400,
     notification: designTokens.colors.highlightRed,
@@ -17,6 +18,12 @@ export const DarkTheme: CustomTheme = {
     darkGold: designTokens.colors.highlightPts,
     greenBackground: designTokens.colors.backgroundGreen,
     green: designTokens.colors.highlightGreen,
-    
+    btnPrimary: designTokens.colors.primary400,
+    btnSecondary: designTokens.colors.secondary400,
+    btnDisabled: designTokens.colors.darkFontDefault,
+    lightFontFade: designTokens.colors.lightFontFade,
+  },
+  fonts: {
+    primary: designTokens.fonts.primary
   }
 };

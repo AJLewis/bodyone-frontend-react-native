@@ -31,9 +31,12 @@ const designTokens = {
     darkFontFade: '#505050',
     darkFontDark: '#202020',
     lightFontDefault: '#ffffff',
-    lightFontFade: '#ffffff',
+    lightFontFade: '#c6c6c6',
     lightFontDark: '#c8c8c8',
   },
+  fonts: {
+    primary: 'Roboto'
+  }
 };
 
 export default designTokens;

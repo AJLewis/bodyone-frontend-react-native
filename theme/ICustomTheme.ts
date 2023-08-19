@@ -8,9 +8,22 @@ type AdditionalColors = {
   darkGold: string,
   greenBackground: string,
   green: string;
-};
+  btnPrimary: string;
+  btnSecondary: string;
+  btnDisabled: string;
+  lightFontFade: string;
+  dropdownBackground: string;
+}
+
+type AdditionalFonts = {
+  primary: string
+}
 
 // 2. Create a new type that extends the original Theme and merges the new colors
 export interface CustomTheme extends Omit<DefaultTheme, 'colors'> {
   colors: DefaultTheme['colors'] & AdditionalColors;
+}
+
+export interface CustomTheme extends Omit<DefaultTheme, 'fonts'> {
+  fonts: AdditionalFonts;
 }

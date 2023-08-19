@@ -11,15 +11,20 @@ interface HorizontalInfoCardScrollProps {
 }
 
 export function HorizontalInfoCardScroll({ title, cardsData }: HorizontalInfoCardScrollProps) {
-  const { colors } = useTheme() as CustomTheme;
+  const { colors, fonts } = useTheme() as CustomTheme;
   const [maxHeight, setMaxHeight] = useState(190);
 
   return (
     <View style={styles.container}>
-      <Text style={{ ...styles.title, color: colors.text }}>{title}</Text>
+      <Text style={{ ...styles.title, color: colors.text, fontFamily: fonts.primary }}>{title}</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {cardsData.map((card, index) => (
-          <View style={{ ...styles.infoCard, height: maxHeight }} key={index}>
+          <View style={[
+            styles.infoCard, 
+            { height: maxHeight }, 
+            index === cardsData.length - 1 ? styles.lastCardStyle : {}
+          ]} 
+          key={index}>
             <InfoCard {...card} cardHeight={maxHeight} />
           </View>
         ))}
@@ -30,7 +35,7 @@ export function HorizontalInfoCardScroll({ title, cardsData }: HorizontalInfoCar
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 10,
+    marginBottom: 20,
   },
   infoCard: {
     marginLeft: 20,
@@ -40,9 +45,7 @@ const styles = StyleSheet.create({
   },
   title: {
     marginLeft:20,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
+    fontSize: 16,
     marginBottom: 10,
   },
 });
