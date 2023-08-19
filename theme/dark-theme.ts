@@ -3,6 +3,7 @@ import designTokens from "../designTokens";
 import { CustomTheme } from "./ICustomTheme";
 
 export const DarkTheme: CustomTheme = {
+  
   dark: true,
   colors: {
     primary: designTokens.colors.primary500,
@@ -25,5 +26,8 @@ export const DarkTheme: CustomTheme = {
   },
   fonts: {
     primary: designTokens.fonts.primary
+  },
+  config: {
+    name: 'default'
   }
 };
