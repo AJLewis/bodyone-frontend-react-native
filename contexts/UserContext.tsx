@@ -21,6 +21,8 @@ export interface IUser {
   email: string;
   firstName?: string;
   lastName?: string;
+  avatar: string;
+  handle: string;
   dateOfBirth?: Date;
   gender?: string;
   metrics?: string; // This is an ObjectId in Mongoose, but for TypeScript purposes, we'll represent it as a string.
@@ -28,7 +30,7 @@ export interface IUser {
   dietaryRequirements?: string[];
   allergies?: string[];
   preferredCuisine?: string[];
-  points?: string; // This is an ObjectId in Mongoose.
+  points?: any; // This is an ObjectId in Mongoose.
   subscription: ISubscription;
   lastLogin: Date;
   mealPlans?: string[]; // These are ObjectIds in Mongoose.

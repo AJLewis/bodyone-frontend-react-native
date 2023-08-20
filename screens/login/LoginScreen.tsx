@@ -23,30 +23,15 @@ import { privateApi } from '../../services/api/ApiConfig';
 
 // @ts-ignore
 function LoginScreen() {
+  console.log('login screen')
   const [username, setUsername] = useState('andy_lewis');
   const [password, setPassword] = useState('securePassword123');
   const [error, setError] = useState('');
   const navigation = useNavigation();
   const { colors } = useTheme() as CustomTheme;
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   const { setUser } = useUser();
-
-
-  useEffect(() => {
-    const checkToken = async () => {
-      // const token = false;
-      const token = await AsyncStorage.getItem('jwt_token');
-      const userId = await AsyncStorage.getItem('userId');
-      if(token && userId) {
-          await fetchUserData(userId);
-          goToTabs();
-        }
-      setIsLoading(false);
-    };
-
-    checkToken();
-  }, []);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -82,6 +67,7 @@ function LoginScreen() {
   };
 
   const handleLogin = async () => {
+    setIsLoading(true);
     try {
       const data = await login(username, password);
       console.log(data)
@@ -93,6 +79,7 @@ function LoginScreen() {
       console.log(err);
       setError(err);
     }
+    setIsLoading(false);
   };
 
   const goToTabs = () => {
@@ -107,19 +94,20 @@ function LoginScreen() {
   }
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <View style={styles.container}>
+        {!keyboardVisible && ( // Conditionally render the logo based on isInputFocused
+              <View style={styles.logoContainer}>
+                <Image source={Logo} style={{ width: 210, height: 66 }} />
+              </View>
+            )}
+            
         {isLoading ? (
           <View style={styles.loaderContainer}>
             <ActivityIndicator size="large" color="#0000ff" />
           </View>
         ) : (
           <>
-            {!keyboardVisible && ( // Conditionally render the logo based on isInputFocused
-              <View style={styles.logoContainer}>
-                <Image source={Logo} style={{ width: 210, height: 66 }} />
-              </View>
-            )}
+            
             <View style={styles.fieldsContainer}>
               
               <View style={styles.usernameInput}>
@@ -149,7 +137,6 @@ function LoginScreen() {
           </>
         )}
       </View>
-    </KeyboardAvoidingView>
   );
 }
 

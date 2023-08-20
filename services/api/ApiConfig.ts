@@ -1,7 +1,9 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BASE_URL = 'https://b039-91-196-221-214.ngrok.io';
+const BASE_URL = 'https://b50d-91-196-221-216.ngrok.io';
+
+const CONFIG_URL = 'https://3c8d-91-196-221-216.ngrok.io';
 
 const publicApi = axios.create({
   baseURL: `${BASE_URL}/api/public`,
@@ -9,6 +11,10 @@ const publicApi = axios.create({
 
 const privateApi = axios.create({
   baseURL: `${BASE_URL}/api/private`,
+});
+
+const configApi = axios.create({
+  baseURL: `${CONFIG_URL}/api/configuration`,
 });
 
 privateApi.interceptors.request.use(
@@ -22,4 +28,15 @@ privateApi.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export { publicApi, privateApi };
+configApi.interceptors.request.use(
+  async (config) => {
+    const token = await AsyncStorage.getItem('jwt_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+export { publicApi, privateApi, configApi };

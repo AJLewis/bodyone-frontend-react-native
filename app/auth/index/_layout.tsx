@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { StyleSheet, Text, Animated, View } from 'react-native';
-import LoginScreen from '../../../screens/login/LoginScreen';
 import { useFocusEffect, useNavigation } from 'expo-router';
+import LoginScreen from '../../../screens/login/LoginScreen';
 
 export default function AddIndex() {
     const opacity = useRef(new Animated.Value(0)).current;

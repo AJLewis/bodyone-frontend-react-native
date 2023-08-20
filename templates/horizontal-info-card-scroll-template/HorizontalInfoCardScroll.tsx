@@ -16,7 +16,7 @@ export function HorizontalInfoCardScroll({ title, cardsData }: HorizontalInfoCar
 
   return (
     <View style={styles.container}>
-      <Text style={{ ...styles.title, color: colors.text, fontFamily: fonts.primary }}>{title}</Text>
+      <Text style={{ ...styles.title, color: colors.text, fontFamily: fonts?.primary }}>{title}</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {cardsData.map((card, index) => (
           <View style={[
@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     marginLeft:20,
     fontSize: 16,
     marginBottom: 10,
+    fontWeight: 'bold',
   },
 });
 

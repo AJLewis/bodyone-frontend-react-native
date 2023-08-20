@@ -8,8 +8,6 @@ import { DarkTheme } from '../theme/dark-theme';
 import { DefaultTheme } from '../theme/default-theme';
 import Header  from '../components/header/header';
 import { UserProvider } from '../contexts/UserContext';
-import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
-
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -49,15 +47,14 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
- 
   return (
     <UserProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <>
         <Stack>
           <Stack.Screen name="(splash)" options={{headerShown: false}} />
-          <Stack.Screen name="tabs" options={{ animation: 'fade', header: () => <Header />}} />
           <Stack.Screen name="auth" options={{animation: 'fade', headerShown: false}} />
+          <Stack.Screen name="tabs" options={{ animation: 'fade', header: () => <Header />}} />
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         </Stack>
         </>

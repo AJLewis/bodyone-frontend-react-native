@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { FontAwesome, SimpleLineIcons } from '@expo/vector-icons';
+import IconComponent from '../icon/IconComponent'; // Update the path accordingly
 
 type PillProps = {
   iconName: any;
@@ -8,7 +8,7 @@ type PillProps = {
   textColor: string;
   backgroundColor: string;
   textSize: number;
-  iconLibrary: string
+  iconLibrary: 'AntDesign' | 'Entypo' | 'EvilIcons' | 'Feather' | 'FontAwesome' | 'FontAwesome5' | 'Fontisto' | 'Foundation' | 'Ionicons' | 'MaterialCommunityIcons' | 'MaterialIcons' | 'Octicons' | 'SimpleLineIcons' | 'Zocial';
 };
 
 const Pill: React.FC<PillProps> = ({
@@ -19,22 +19,9 @@ const Pill: React.FC<PillProps> = ({
   textSize,
   iconLibrary,
 }) => {
-  
-  const renderIcon = () => {
-    switch (iconLibrary) {
-      case 'FontAwesome':
-        return <FontAwesome name={iconName} size={textSize} color={textColor} />;
-      case 'SimpleLineIcons':
-        return <SimpleLineIcons name={iconName} size={textSize} color={textColor} />;
-      default:
-        return null;
-    }
-  };
-
   return (
     <View style={[styles.container, { backgroundColor }]}>
-      {/* @ts-ignore */}
-      {renderIcon()}
+      <IconComponent library={iconLibrary} name={iconName} size={textSize} color={textColor} />
       <Text style={[styles.text, { color: textColor, fontSize: textSize }]}>
         {text}
       </Text>
@@ -46,8 +33,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal:5,
-    paddingVertical:3,
+    paddingHorizontal: 5,
+    paddingVertical: 3,
     borderRadius: 5,
   },
   text: {

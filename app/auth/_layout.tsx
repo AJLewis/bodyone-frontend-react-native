@@ -3,8 +3,9 @@ import {StyleSheet, Text} from 'react-native';
 import {Stack} from 'expo-router';
 
 export default function AuthScreens() {
+    console.log('auth loading')
     return (
-        <Stack initialRouteName="login">
+        <Stack>
             <Stack.Screen
                 name="index"
                 options={{headerShown: false}}
