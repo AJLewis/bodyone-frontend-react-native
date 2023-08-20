@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '700',
     lineHeight: 16,
+    textTransform: 'uppercase',
   },
   horizontalRule: {
     borderBottomColor: '#09324D',

@@ -24,7 +24,7 @@ export function PremiumBannerOrganism() {
 
 const styles = StyleSheet.create({
   root: {
-    width: 390,
+    flex:1,
     height: 38,
     justifyContent: 'center',
     alignItems: 'center',

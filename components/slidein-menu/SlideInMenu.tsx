@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
         flex: 1,
         position: 'absolute',
         left: 0,
-        top: 0,
+        top: 106,
         bottom: 0,
         right: 0,
         backgroundColor: 'rgba(0,0,0,0.3)', // semi-transparent background
@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
         right: 0,
     },
     menu: {
-        top: 105,
         width: screenWidth * 0.75,
         height: screenHeight, // give it a fixed height for now
         backgroundColor: '#001A2B', // make it red to ensure visibility

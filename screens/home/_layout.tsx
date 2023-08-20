@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     banner: {
+        marginTop:1,
         marginBottom:25
     },
     wrapper: {
