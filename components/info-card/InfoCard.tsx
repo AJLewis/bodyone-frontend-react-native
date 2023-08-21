@@ -41,7 +41,7 @@ export function InfoCard({ type, title, data, imageSource, iconName, rightIconNa
             onPress={() => setDropdownVisible(!isDropdownVisible)} // Toggle dropdown visibility
           />
         </View>
-        <View style={styles.line} />
+        <View style={{...styles.line, backgroundColor: colors.menuDividerColor }} />
         <View style={{ ...styles.content }}>
           <Image source={imageSource} style={{ ...styles.image, borderColor: colors.text }} />
           <View>
@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
   },
   line: {
     height: 1,
-    backgroundColor: 'white',
     marginVertical: 10,
   },
   content: {

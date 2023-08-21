@@ -39,23 +39,24 @@ export default function TabLayout() {
         <>
             <Tabs
                 screenOptions={{
-                    tabBarInactiveTintColor: 'white',
-                    tabBarActiveTintColor: 'white',
-                    tabBarActiveBackgroundColor: '#96095E',
+                    tabBarInactiveTintColor: colors.text,
+                    tabBarActiveTintColor: colors.text,
+                    tabBarActiveBackgroundColor: colors.tabSelected,
                     tabBarStyle: {
                         height: 70,
                         justifyContent: 'center',
                         borderTopWidth:1,
-                        borderTopColor: colors.tabBorder
+                        borderTopColor: colors.tabBorder,
+                        backgroundColor: colors.tabsBackground
                     },
                     tabBarLabelStyle: {
                         fontWeight: 'bold',
                         fontSize: 12,
-                        color: 'white',
+                        color: colors.text,
                         paddingBottom: 12,
                     },
                     headerStyle: {
-                      backgroundColor: colors?.headerBackground,
+                      backgroundColor: colors?.tabsBackground,
                     }
                 }}>
                 <Tabs.Screen
@@ -144,8 +145,8 @@ export default function TabLayout() {
                                     borderTopRightRadius: 5,
                                     backgroundColor: props.accessibilityState
                                         ?.selected
-                                        ? '#96095E'
-                                        : '#098896',
+                                        ? colors.tabSelected
+                                        : colors.highlightedTab,
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     flex: 1,

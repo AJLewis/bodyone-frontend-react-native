@@ -18,7 +18,7 @@ export const MenuHeader: React.FC<MenuHeaderProps> = ({ avatarUri, username, ene
 
   return (
     <View style={styles.container}>
-      <View style={styles.background} />
+      <View style={{...styles.background, backgroundColor: colors.headerBackground}} />
       <View style={styles.userInfo}>
         <Image source={{ uri: avatarUri }} style={styles.avatar} />
         <View style={styles.usernameAndPills}>
@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: '#0D2C40',
   },
   userInfo: {
     flexDirection: 'row',
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
   },
   username: {
     fontFamily: 'Roboto',
-    fontSize: 19,
+    fontSize: 16,
     fontWeight: '700',
     marginBottom: 10
   },

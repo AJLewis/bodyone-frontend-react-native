@@ -7,10 +7,11 @@ import {HorizontalInfoCardScroll} from '../../templates/horizontal-info-card-scr
 import { WORKOUT_ACTIONS } from '../../constants/WorkoutActions';
 import { MEAL_ACTIONS } from '../../constants/MealActions';
 import { FetchStreaksAward } from '../../services/api/Streaks';
-import { UserContext} from '../../contexts/UserContext';
+import { UserContext, useUser} from '../../contexts/UserContext';
 
 const Home: React.FC = () => {
-    const {colors} = useTheme() as CustomTheme;
+    const { theme } = useUser();
+    const {colors } = theme as CustomTheme
     const context = useContext(UserContext);
 
     // 
@@ -60,7 +61,7 @@ const Home: React.FC = () => {
       { type: "Workout", title: "Strength", data: [ { title: 'Time:', value: '60 mins' }, { title: 'Cals:', value: '612' }, { title: 'Focus:', value: 'Arms' } ], dataTitle: 'Weight Training', imageSource: require('../../assets/images/strength.png'), iconName: 'arm-flex', fixedSize: 280, actions: WORKOUT_ACTIONS },
     ]
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={{...styles.container, backgroundColor: colors.background}}>
             <View style={{...styles.banner, ...styles.banner}}>
                 <PremiumBannerOrganism />
             </View>
@@ -79,9 +80,7 @@ const Home: React.FC = () => {
 const styles = StyleSheet.create({
     container: {
         paddingBottom: 30,
-        marginBottom:25,
         flex: 1,
-        height: '100%',
     },
     banner: {
         marginTop:1,

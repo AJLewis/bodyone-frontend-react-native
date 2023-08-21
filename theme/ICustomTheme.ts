@@ -13,6 +13,10 @@ type AdditionalColors = {
   btnDisabled: string;
   lightFontFade: string;
   dropdownBackground: string;
+  tabsBackground: string;
+  tabSelected: string;
+  highlightedTab: string;
+  menuDividerColor: string;
 }
 
 type AdditionalFonts = {

@@ -22,11 +22,8 @@ import {useUser} from '../../contexts/UserContext';
 import {configApi} from '../../services/api/ApiConfig';
 import IconComponent from '../../components/icon/IconComponent';
 
-type HeaderProps = {
-    user: any; // Define the type of user as per your data structure
-};
 
-const Header: React.FC<HeaderProps> = ({user}) => {
+const Header = () => {
     const { theme } = useUser();
     const { colors } = theme as CustomTheme;
     const [isMenuVisible, setMenuVisible] = useState(false);
@@ -127,17 +124,17 @@ const Header: React.FC<HeaderProps> = ({user}) => {
                         library={'MaterialCommunityIcons'}
                         name={'cog'}
                         size={24}
-                        color={'#fff'}
+                        color={colors.text}
                         style={{marginRight: 18}} // Added margin
                     />
                     <Pressable onPress={handleNotificationPress}>
                         {/* Notification Icon */}
                         <IconWithCount
                             iconName="notifications"
-                            iconColor="white"
-                            circleColor="green"
+                            iconColor={colors.text}
+                            circleColor={colors.green}
                             textColor="white"
-                            count={99}
+                            count={12}
                         />
                     </Pressable>
                 </View>

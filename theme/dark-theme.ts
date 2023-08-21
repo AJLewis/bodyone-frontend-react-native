@@ -23,6 +23,10 @@ export const DarkTheme: CustomTheme = {
     btnSecondary: designTokens.colors.secondary400,
     btnDisabled: designTokens.colors.darkFontDefault,
     lightFontFade: designTokens.colors.lightFontFade,
+    tabsBackground: designTokens.colors.tertiary400,
+    tabSelected: designTokens.colors.secondary400,
+    highlightedTab: designTokens.colors.primary300,
+    menuDividerColor: designTokens.colors.tertiary400,
   },
   fonts: {
     primary: designTokens.fonts.primary

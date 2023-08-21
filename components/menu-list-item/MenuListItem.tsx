@@ -12,6 +12,7 @@ type MenuListItemProps = {
   iconName: any;
   library: any;
   hideHorizontalLine?: boolean;
+  dividerColor: string;
 };
 
 export const MenuListItem: React.FC<MenuListItemProps> = ({
@@ -22,14 +23,15 @@ export const MenuListItem: React.FC<MenuListItemProps> = ({
   text,
   iconName,
   library,
-  hideHorizontalLine = false
+  hideHorizontalLine = false,
+  dividerColor
 }) => {
   return (
     <TouchableOpacity onPress={() => NavigateByPath(navigation, link)}>
       <View style={[styles.root, backgroundColor ? { backgroundColor } : {}]} >
         <IconComponent library={library} name={iconName} size={18} color={fontColor} style={styles.icon} />
         <Text style={[styles.text, { color: fontColor }]}>{text}</Text>
-        {!backgroundColor && !hideHorizontalLine && <View style={styles.horizontalRule} />}
+        {!backgroundColor && !hideHorizontalLine && <View style={{...styles.horizontalRule, borderBottomColor: dividerColor}} />}
       </View>
     </TouchableOpacity>
   );
@@ -56,7 +58,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   horizontalRule: {
-    borderBottomColor: '#09324D',
     borderBottomWidth: 1,
     marginTop: 5,
     position: 'absolute',

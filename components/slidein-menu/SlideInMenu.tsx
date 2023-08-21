@@ -12,6 +12,8 @@ import { Avatar } from '../../assets/images/avatar.png';
 import MenuListItem from '../menu-list-item/MenuListItem';
 import { useNavigation } from 'expo-router';
 import { configApi } from '../../services/api/ApiConfig'; 
+import { useUser } from '../../contexts/UserContext';
+import { CustomTheme } from '../../theme/ICustomTheme';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -31,7 +33,8 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
         const navigation = useNavigation();
         const slideAnim = useRef( new Animated.Value(-screenWidth * 0.75) ).current;
         const overlayOpacity = useRef(new Animated.Value(0)).current;
-
+        const { theme } = useUser();
+        const { colors } = theme as CustomTheme;
 
         const openMenu = () => {
             Animated.parallel([
@@ -86,7 +89,7 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
                 <Animated.View
                     style={[
                         styles.menu,
-                        { transform: [{ translateX: slideAnim }] },
+                        { transform: [{ translateX: slideAnim }], backgroundColor: colors.background },
                     ]}
                 >
                     <MenuHeader
@@ -102,11 +105,12 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
                                 navigation={navigation}
                                 link={item.link}
                                 text={item.text}
-                                fontColor={item.fontColor}
+                                fontColor={colors.text}
                                 library={item.library}
                                 iconName={item.iconName}
                                 backgroundColor={item.backgroundColor}
                                 hideHorizontalLine={item.hideHorizontalLine}
+                                dividerColor={colors.menuDividerColor}
                             />
                         ))}
                     </ScrollView>
@@ -140,8 +144,7 @@ const styles = StyleSheet.create({
     menu: {
         width: screenWidth * 0.75,
         height: screenHeight, // give it a fixed height for now
-        backgroundColor: '#001A2B', // make it red to ensure visibility
-    },
+    }
 });
 
 export default SlideInMenu;
