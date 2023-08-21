@@ -13,7 +13,7 @@ import {useNavigation} from 'expo-router';
 import {Button, ButtonColor, ButtonType} from '../../components/button/Button';
 import {CustomTheme} from 'theme/ICustomTheme';
 import {InputPrimary} from '../../components/input-primary/InputPrimary';
-import Logo from '../../assets/images/largeLogo.png';
+import Logo from '../../assets/images/logo.png';
 import {CommonActions, useTheme} from '@react-navigation/native';
 import {TouchableOpacity} from 'react-native';
 

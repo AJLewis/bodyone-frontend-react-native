@@ -34,7 +34,7 @@ function SplashScreen() {
     const checkAuthStatus = async () => {
       const token = await AsyncStorage.getItem('jwt_token');
       const userId = await AsyncStorage.getItem('userId');
-      const forceLogin = true;
+      const forceLogin = false;
       if (token && userId) {
         if (isTokenExpired(token) || forceLogin) {
           console.log('TOKEN EXPIRED !!!!!!!!!!!!!!');

@@ -15,7 +15,7 @@ import { useNavigation } from 'expo-router';
 import { Button, ButtonColor, ButtonSize, ButtonType } from '../../components/button/Button';
 import { CustomTheme } from 'theme/ICustomTheme';
 import { InputPrimary } from '../../components/input-primary/InputPrimary';
-import Logo from '../../assets/images/largeLogo.png';
+import Logo from '../../assets/images/logo.png';
 import { TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useUser } from '../../contexts/UserContext';

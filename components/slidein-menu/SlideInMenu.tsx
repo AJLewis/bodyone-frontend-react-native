@@ -29,26 +29,39 @@ export type SlideInMenuRef = {
 const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
     ({ onClose, user, menuItems }, ref) => {
         const navigation = useNavigation();
-        const slideAnim = useRef(
-            new Animated.Value(-screenWidth * 0.75)
-        ).current;
+        const slideAnim = useRef( new Animated.Value(-screenWidth * 0.75) ).current;
+        const overlayOpacity = useRef(new Animated.Value(0)).current;
 
 
         const openMenu = () => {
-            Animated.timing(slideAnim, {
-                toValue: 0,
-                duration: 300,
-                useNativeDriver: false,
-            }).start();
+            Animated.parallel([
+                Animated.timing(slideAnim, {
+                    toValue: 0,
+                    duration: 300,
+                    useNativeDriver: false,
+                }),
+                Animated.timing(overlayOpacity, {
+                    toValue: 0.3,
+                    duration: 300,
+                    useNativeDriver: false,
+                }),
+            ]).start();
         };
 
         const animateMenuOut = () => {
             console.log('animating menu out');
-            Animated.timing(slideAnim, {
-                toValue: -screenWidth * 0.75,
-                duration: 300,
-                useNativeDriver: false,
-            }).start(() => {
+            Animated.parallel([
+                Animated.timing(slideAnim, {
+                    toValue: -screenWidth * 0.75,
+                    duration: 300,
+                    useNativeDriver: false,
+                }),
+                Animated.timing(overlayOpacity, {
+                    toValue: 0,
+                    duration: 300,
+                    useNativeDriver: false,
+                }),
+            ]).start(() => {
                 onClose();
             });
         };
@@ -64,7 +77,10 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
         return (
             <View style={styles.container}>
                 <TouchableOpacity
-                    style={styles.overlay}
+                    style={[
+                        styles.overlay,
+                        { opacity: overlayOpacity }
+                    ]}
                     onPress={animateMenuOut}
                 />
                 <Animated.View
@@ -105,7 +121,7 @@ const styles = StyleSheet.create({
         flex: 1,
         position: 'absolute',
         left: 0,
-        top: 106,
+        top: 104,
         bottom: 0,
         right: 0,
         backgroundColor: 'rgba(0,0,0,0.3)', // semi-transparent background

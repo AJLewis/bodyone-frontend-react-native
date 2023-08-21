@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     paddingHorizontal: 20,
-    paddingVertical: 17
+    paddingVertical: 15
   },
   icon: {
     width: 40,
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   text: {
     marginLeft:10,
-    fontSize: 16,
+    fontSize: 15,
     fontStyle: 'normal',
     fontWeight: '700',
     lineHeight: 16,

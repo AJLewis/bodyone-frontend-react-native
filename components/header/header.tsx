@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
     View,
     Text,
@@ -17,15 +17,16 @@ import {CustomTheme} from '../../theme/ICustomTheme';
 import Pill from '../pill/Pill';
 import IconWithCount from '../icon-with-count/icon-with-count';
 import Logo from '../../assets/images/logo.png';
-import SlideInMenu, { SlideInMenuRef }  from '../slidein-menu/SlideInMenu';
-import { useUser } from '../../contexts/UserContext';
-import { configApi } from '../../services/api/ApiConfig';
+import SlideInMenu, {SlideInMenuRef} from '../slidein-menu/SlideInMenu';
+import {useUser} from '../../contexts/UserContext';
+import {configApi} from '../../services/api/ApiConfig';
+import IconComponent from '../../components/icon/IconComponent';
 
 type HeaderProps = {
     user: any; // Define the type of user as per your data structure
-  };
+};
 
-  const Header: React.FC<HeaderProps> = ({ user }) => {
+const Header: React.FC<HeaderProps> = ({user}) => {
     const {colors} = useTheme() as CustomTheme;
     const [isMenuVisible, setMenuVisible] = useState(false);
     const slideMenuRef = useRef<SlideInMenuRef>(null);
@@ -36,9 +37,9 @@ type HeaderProps = {
     const handleHamburgerPress = () => {
         if (isMenuVisible) {
             slideMenuRef?.current?.animateMenuOut();
-          } else {
+        } else {
             setMenuVisible(true);
-          }
+        }
     };
 
     const handleCrownPress = () => {
@@ -62,11 +63,13 @@ type HeaderProps = {
     };
 
     useEffect(() => {
+        8;
         // Fetch the navigation menu from the backend
         const fetchNavigationMenu = async () => {
             try {
-                const response = await configApi.get('/navigation-menu/slide-in-main-menu');
-                console.log(response);
+                const response = await configApi.get(
+                    `/navigation-menu/slide-in-main-menu`
+                );
                 if (response.data && response.data.menuItems) {
                     setMenuItems(response.data.menuItems);
                 }
@@ -85,58 +88,58 @@ type HeaderProps = {
                 backgroundColor: colors.headerBackground,
             }}
         >
-            {isMenuVisible && <SlideInMenu menuItems={menuItems} user={userFromContext} ref={slideMenuRef} onClose={() => setMenuVisible(false)} />}
-            <View style={{...styles.inner}}>
-                <Feather
-                    name="menu"
-                    style={{...styles.hamburgerMenu, color: colors.text}}
-                    size={32}
-                    onPress={handleHamburgerPress}
+            {isMenuVisible && (
+                <SlideInMenu
+                    menuItems={menuItems}
+                    user={userFromContext}
+                    ref={slideMenuRef}
+                    onClose={() => setMenuVisible(false)}
                 />
-
-                <MaterialCommunityIcons
-                    style={{color: colors.premiumGold}}
-                    name="crown"
-                    size={30}
-                    color="black"
-                />
-
-                {/* Logo */}
-                <View
-                    style={{
-                        ...styles.logo,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >
-                    <Image
-                        source={Logo}
-                        style={{width: 100, height: 20}}
+            )}
+            <View style={styles.inner}>
+                {/* Left Group: Hamburger Menu and Logo */}
+                <View style={styles.leftGroup}>
+                    <Feather
+                        name="menu"
+                        style={{...styles.hamburgerMenu, color: colors.text}}
+                        size={32}
+                        onPress={handleHamburgerPress}
                     />
+                    <View
+                        style={{
+                            ...styles.logo,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginLeft: 20, // Added margin
+                        }}
+                    >
+                        <Image
+                            source={Logo}
+                            style={{width: 100, height: 20}}
+                        />
+                    </View>
                 </View>
 
-                <Pressable onPress={handlePillPress}>
-                    {/* Pill Component */}
-                    <Pill
-                        iconLibrary="SimpleLineIcons"
-                        iconName="energy"
-                        text={userFromContext?.points?.points}
-                        textColor={colors.text}
-                        backgroundColor={colors.darkGold}
-                        textSize={12}
+                {/* Right Group: Cog and Notifications Icon */}
+                <View style={styles.rightGroup}>
+                    <IconComponent
+                        library={'MaterialCommunityIcons'}
+                        name={'cog'}
+                        size={24}
+                        color={'#fff'}
+                        style={{marginRight: 18}} // Added margin
                     />
-                </Pressable>
-
-                <Pressable onPress={handleNotificationPress}>
-                    {/* Notification Icon */}
-                    <IconWithCount
-                        iconName="notifications"
-                        iconColor="white"
-                        circleColor="green"
-                        textColor="white"
-                        count={99}
-                    />
-                </Pressable>
+                    <Pressable onPress={handleNotificationPress}>
+                        {/* Notification Icon */}
+                        <IconWithCount
+                            iconName="notifications"
+                            iconColor="white"
+                            circleColor="green"
+                            textColor="white"
+                            count={99}
+                        />
+                    </Pressable>
+                </View>
             </View>
         </SafeAreaView>
     );
@@ -155,13 +158,21 @@ const styles = StyleSheet.create({
         flex: 0,
         marginTop: 5,
     },
+    leftGroup: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    rightGroup: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
     hamburgerMenu: {
-        marginTop: 3,
+        marginTop: 1,
     },
     logo: {
         fontSize: 20,
         fontWeight: 'bold',
-        marginHorizontal: 25,
+        marginRight: 55,
         marginTop: 4,
     },
 });
