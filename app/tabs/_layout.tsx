@@ -9,6 +9,7 @@ import { useTheme } from '@react-navigation/native';
 import { CustomTheme } from 'theme/ICustomTheme';
 import React from 'react';
 import handleTabPress from '../../utils/HandleTabPress';
+import { useUser } from '../../contexts/UserContext';
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
@@ -28,7 +29,8 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
     const colorScheme = useColorScheme();
-    const { colors } = useTheme() as CustomTheme;
+    const { theme } = useUser();
+    const { colors } = theme as CustomTheme;
     NavigationBar.setVisibilityAsync('hidden');
 
   

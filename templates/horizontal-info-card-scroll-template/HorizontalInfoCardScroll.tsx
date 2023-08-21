@@ -4,6 +4,7 @@ import { CustomTheme } from '../../theme/ICustomTheme';
 import { useTheme } from '@react-navigation/native';
 import InfoCard from '../../components/info-card/InfoCard'; // Adjust the path as needed
 import { InfoCardProps } from 'components/info-card/InfoCard';
+import { useUser } from '../../contexts/UserContext';
 
 interface HorizontalInfoCardScrollProps {
   title: string;
@@ -11,7 +12,8 @@ interface HorizontalInfoCardScrollProps {
 }
 
 export function HorizontalInfoCardScroll({ title, cardsData }: HorizontalInfoCardScrollProps) {
-  const { colors, fonts } = useTheme() as CustomTheme;
+  const { theme } = useUser();
+  const { colors, fonts } = theme as CustomTheme;
   const [maxHeight, setMaxHeight] = useState(190);
 
   return (

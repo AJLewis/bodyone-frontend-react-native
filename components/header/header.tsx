@@ -27,7 +27,8 @@ type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({user}) => {
-    const {colors} = useTheme() as CustomTheme;
+    const { theme } = useUser();
+    const { colors } = theme as CustomTheme;
     const [isMenuVisible, setMenuVisible] = useState(false);
     const slideMenuRef = useRef<SlideInMenuRef>(null);
     const [menuItems, setMenuItems] = useState([]);

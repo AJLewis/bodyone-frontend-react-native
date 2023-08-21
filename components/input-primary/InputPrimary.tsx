@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { CustomTheme } from '../../theme/ICustomTheme';
+import { useUser } from '../../contexts/UserContext';
 
 interface InputPrimaryProps {
   placeholder?: string;
@@ -22,7 +23,8 @@ export function InputPrimary({
   secureTextEntry = false,
   // ... other props
 }: InputPrimaryProps) {
-  const { colors } = useTheme() as CustomTheme;
+  const { theme } = useUser();
+  const { colors } = theme as CustomTheme;
 
   return (
     <View style={styles.root}>

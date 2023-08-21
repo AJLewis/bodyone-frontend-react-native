@@ -3,6 +3,7 @@ import { StyleSheet, Text, Pressable, Animated, View, useColorScheme } from 'rea
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { CustomTheme } from '../../theme/ICustomTheme';
 import NavigateByPath from '../../utils/NavigateByPath';
+import { useUser } from '../../contexts/UserContext';
 
 interface ReusableScreenProps {
     title: string;
@@ -14,7 +15,8 @@ const ReusableScreen: React.FC<ReusableScreenProps> = ({ title, message, link })
     const navigation = useNavigation();
     const opacity = new Animated.Value(1);
     const colorScheme = useColorScheme();
-    const { colors } = useTheme() as CustomTheme;
+    const { theme } = useUser();
+    const { colors } = theme as CustomTheme;
 
 
     return (

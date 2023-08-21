@@ -2,6 +2,7 @@ import { useTheme } from "@react-navigation/native";
 import { Button, ButtonSize, ButtonType } from "../button/Button";
 import { View, StyleSheet } from "react-native";
 import { CustomTheme } from "theme/ICustomTheme";
+import { useUser } from "../../contexts/UserContext";
 
 interface DropdownButtonProps {
   buttons: { label: string; onPress: () => void }[];
@@ -10,7 +11,8 @@ interface DropdownButtonProps {
 
 export const DropdownButtons: React.FC<DropdownButtonProps> = ({ buttons, isVisible }) => {
   if (!isVisible) return null;
-  const { colors } = useTheme() as CustomTheme;
+  const { theme } = useUser();
+  const { colors } = theme as CustomTheme;
 
   return (
     <View style={{...styles.dropdownContainer, backgroundColor: colors.dropdownBackground}}>

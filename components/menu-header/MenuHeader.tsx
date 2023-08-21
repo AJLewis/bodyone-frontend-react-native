@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 import Pill from '../pill/Pill';
 import { CustomTheme } from '../../theme/ICustomTheme';
 import { useTheme } from '@react-navigation/native';
+import { useUser } from '../../contexts/UserContext';
 
 type MenuHeaderProps = {
   avatarUri: string;
@@ -12,7 +13,8 @@ type MenuHeaderProps = {
 };
 
 export const MenuHeader: React.FC<MenuHeaderProps> = ({ avatarUri, username, energy, level }) => {
-  const { colors } = useTheme() as CustomTheme;
+  const { theme } = useUser();
+  const { colors } = theme as CustomTheme;
 
   return (
     <View style={styles.container}>

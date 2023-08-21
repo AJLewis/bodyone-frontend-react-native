@@ -9,7 +9,7 @@ import jwtDecode from 'jwt-decode';
 import { useNavigation } from 'expo-router';
 import Logo from '../../assets/images/largeLogo.png';
 import { useUser } from '../../contexts/UserContext'; 
-import { privateApi } from '../../services/api/ApiConfig'; 
+import { privateApi, configApi } from '../../services/api/ApiConfig'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CommonActions } from '@react-navigation/native';
 
@@ -20,7 +20,7 @@ interface DecodedToken {
 
 function SplashScreen() {
   const navigation = useNavigation();
-  const { setUser } = useUser(); 
+  const { setUser, setTheme } = useUser(); // Assuming you have a setTheme method in your UserContext
 
   const isTokenExpired = (token: string): boolean => {
     const decoded = jwtDecode(token) as DecodedToken;
@@ -30,6 +30,7 @@ function SplashScreen() {
     }
     return true; // Default to expired if we can't decode the token or if it doesn't have an expiration
   };
+
   useEffect(() => {
     const checkAuthStatus = async () => {
       const token = await AsyncStorage.getItem('jwt_token');
@@ -44,14 +45,19 @@ function SplashScreen() {
 
         // Fetch the user data using the privateApi
         try {
-          
           console.log('FETCHING USER !!!!!!!!!!!!!!');
           const response = await privateApi.get(`/user/basic/${userId}`);
           const userData = response.data;
           setUser(userData); // Set the user data in the context
+          console.log(userData)
+          // Fetch the theme based on the user's theme preference
+          const themeResponse = await configApi.get(`/theme/${userData.theme}`);
+          console.log(userData.theme)
+          const userTheme = themeResponse.data;
+          setTheme(userTheme); // Set the theme data in the context
           goToTabs();
         } catch (error) {
-          console.error("Failed to fetch user data:", error);
+          console.error("Failed to fetch user data or theme:", error);
           goToAuth();
         }
       } else {
@@ -60,7 +66,7 @@ function SplashScreen() {
     };
 
     checkAuthStatus();
-  }, [navigation, setUser]); 
+  }, [navigation, setUser, setTheme]); 
 
   const goToTabs = () => {
     navigation.dispatch(

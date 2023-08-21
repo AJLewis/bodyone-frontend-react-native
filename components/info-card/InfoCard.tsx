@@ -5,6 +5,7 @@ import { CustomTheme } from '../../theme/ICustomTheme';
 import { useTheme } from '@react-navigation/native';
 import {DropdownButtons} from '../dropdown-buttons/DropdownButtons';
 import { Button } from '../button/Button'; // Adjust the path as needed
+import { useUser } from '../../contexts/UserContext';
 
 export interface InfoCardProps {
   type: string; // Added this
@@ -21,7 +22,8 @@ export interface InfoCardProps {
 }
 
 export function InfoCard({ type, title, data, imageSource, iconName, rightIconName = 'options', dataTitle, fixedSize, onLayout, cardHeight , actions}: InfoCardProps) {
-  const { colors } = useTheme() as CustomTheme;
+  const { theme } = useUser();
+  const { colors } = theme as CustomTheme;
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   return (

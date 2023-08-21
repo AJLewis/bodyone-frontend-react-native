@@ -3,11 +3,13 @@ import { StyleSheet, View, Text, useColorScheme } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
 import { CustomTheme } from 'theme/ICustomTheme';
+import { useUser } from '../../contexts/UserContext';
 
 export function PremiumBannerOrganism() {
   
   const colorScheme = useColorScheme();
-  const { colors } = useTheme() as CustomTheme;
+  const { theme } = useUser();
+  const { colors } = theme as CustomTheme;
 
   return (
     <View style={[styles.root, { backgroundColor: colors.greenBackground }]}>

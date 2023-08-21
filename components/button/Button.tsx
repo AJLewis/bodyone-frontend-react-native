@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { CustomTheme } from '../../theme/ICustomTheme';
+import { useUser } from '../../contexts/UserContext';
 
 export interface ButtonProps {
   type: ButtonType;
@@ -36,7 +37,8 @@ export enum ButtonColor {
 }
 
 export function Button({ type, color = ButtonColor.Primary, label, onPress, size = ButtonSize.Default, width = ButtonWidth.Full }: ButtonProps) {
-  const { colors } = useTheme() as CustomTheme;
+  const { theme } = useUser();
+  const { colors } = theme as CustomTheme;
 
   const buttonSizeStyles = {
     [ButtonSize.Large]: {

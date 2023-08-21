@@ -46,15 +46,18 @@ interface UserProviderProps {
 interface UserContextProps {
   user: IUser | null;
   setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
+  theme: any; // You can replace 'any' with a more specific type if you have one for the theme.
+  setTheme: React.Dispatch<React.SetStateAction<any>>; 
 }
 
 export const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null);
+  const [theme, setTheme] = useState<any>(null);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, theme, setTheme }}>
       {children}
     </UserContext.Provider>
   );
