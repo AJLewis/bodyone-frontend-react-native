@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {register} from '../../services/api/AuthService';
 import {useNavigation} from 'expo-router';
-import {Button, ButtonColor, ButtonType} from '../../components/button/Button';
+import {Button, ButtonColor, ButtonType, ButtonWidth} from '../../components/button/Button';
 import {CustomTheme} from 'theme/ICustomTheme';
 import {InputPrimary} from '../../components/input-primary/InputPrimary';
 import Logo from '../../assets/images/logo.png';
@@ -66,6 +66,7 @@ function RegisterScreen() {
             await register(email, email, password, firstName, lastName);
             navigation.navigate('tabs');
         } catch (err: any) {
+            console.log(err);
             setError(err);
         }
     };
@@ -89,7 +90,7 @@ function RegisterScreen() {
                     <View style={styles.logoContainer}>
                         <Image
                             source={Logo}
-                            style={{width: 210, height: 66}}
+                            style={{width: 260, height: 52}}
                         />
                     </View>
                 )}
@@ -126,12 +127,15 @@ function RegisterScreen() {
                         />
                     </View>
                     {error && <Text>{error}</Text>}
-                    <Button
-                        label="Register"
-                        type={ButtonType.Fill}
-                        color={ButtonColor.Primary}
-                        onPress={handleRegister}
-                    />
+                    <View style={styles.registerBtn}>
+                        <Button
+                            label="Register"
+                            width={ButtonWidth.Full}
+                            type={ButtonType.Fill}
+                            color={ButtonColor.Primary}
+                            onPress={handleRegister}
+                        />
+                    </View>
                     <View style={styles.loginBtn}>
                         <TouchableOpacity
                             onPress={() => navigation.navigate('index')}
@@ -163,7 +167,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
+        marginTop: 20
     },
     nameInputContainer: {
         flexDirection: 'row',
@@ -191,11 +195,16 @@ const styles = StyleSheet.create({
         marginBottom: 35,
     },
     fieldsContainer: {
-        width: '95%',
+        marginHorizontal:20,
         alignItems: 'center',
+        width:'100%'
     },
     loginBtn: {
         marginTop: 20,
+    },
+    registerBtn: {
+        width:'100%',
+        paddingHorizontal: 20
     },
     textLinks: {
         fontWeight: 'bold',

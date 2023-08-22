@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { CustomTheme } from '../../theme/ICustomTheme';
 import { useUser } from '../../contexts/UserContext';
@@ -11,6 +11,7 @@ export interface ButtonProps {
   onPress?: () => void;
   size?: ButtonSize,
   width?: ButtonWidth;
+  count?: number;
 }
 
 export enum ButtonSize {
@@ -36,7 +37,7 @@ export enum ButtonColor {
   Secondary = 'Secondary',
 }
 
-export function Button({ type, color = ButtonColor.Primary, label, onPress, size = ButtonSize.Default, width = ButtonWidth.Full }: ButtonProps) {
+export function Button({ type, color = ButtonColor.Primary, label, onPress, size = ButtonSize.Default, width = ButtonWidth.Full, count }: ButtonProps) {
   const { theme } = useUser();
   const { colors } = theme as CustomTheme;
 
@@ -69,11 +70,11 @@ export function Button({ type, color = ButtonColor.Primary, label, onPress, size
       styles.buttonContainer,
       buttonSizeStyles[size].container,
       buttonWidthStyles[width],
-      type === ButtonType.Outline && styles.buttonOutline,
+      type === ButtonType.Outline && {...styles.buttonOutline, borderColor: color === ButtonColor.Primary ? colors.btnPrimary : colors.btnSecondary },
       type === ButtonType.Fill && { backgroundColor: color === ButtonColor.Primary ? colors.btnPrimary : colors.btnSecondary },
       type === ButtonType.Selected && { backgroundColor: color === ButtonColor.Primary ? colors.btnPrimary : colors.btnSecondary },
       type === ButtonType.Disabled && { backgroundColor: colors.btnDisabled },
-    ],
+    ].filter(Boolean),
     label: [
       styles.label,
       buttonSizeStyles[size].label,
@@ -88,6 +89,11 @@ export function Button({ type, color = ButtonColor.Primary, label, onPress, size
       <Text style={buttonStyles.label}>
         {label}
       </Text>
+      {count && count > 0 && (
+        <View style={[styles.circle, { backgroundColor: colors.notification }]}>
+          <Text style={[styles.countText, { color: 'white' }]}>{count}</Text>
+        </View>
+      )}
     </TouchableOpacity>
   );
 }
@@ -100,11 +106,27 @@ const styles = StyleSheet.create({
   },
   buttonOutline: {
     borderWidth: 1,
-    borderColor: '#098896', // This can be replaced with a theme color if needed
     backgroundColor: 'transparent',
   },
   label: {
     fontSize: 20,
     fontWeight: '400',
+  },
+  circle: {
+    position: 'absolute',
+    top: -3,
+    right: -3,
+    padding: 3,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    maxHeight: 20,
+  },
+  countText: {
+    marginTop: -1,
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });

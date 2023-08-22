@@ -43,13 +43,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     paddingHorizontal: 20,
-    paddingVertical: 15
+    paddingVertical: 18
   },
   icon: {
     width: 40,
     textAlign: 'center',
   },
   text: {
+    marginTop:2,
     marginLeft:10,
     fontSize: 15,
     fontStyle: 'normal',

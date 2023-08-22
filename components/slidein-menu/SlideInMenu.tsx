@@ -1,5 +1,5 @@
 import MenuHeader from '../menu-header/MenuHeader';
-import React, { useRef, useEffect, useState } from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import {
     View,
     Animated,
@@ -8,12 +8,15 @@ import {
     TouchableOpacity,
     ScrollView,
 } from 'react-native';
-import { Avatar } from '../../assets/images/avatar.png';
+import {Avatar} from '../../assets/images/avatar.png';
 import MenuListItem from '../menu-list-item/MenuListItem';
-import { useNavigation } from 'expo-router';
-import { configApi } from '../../services/api/ApiConfig'; 
-import { useUser } from '../../contexts/UserContext';
-import { CustomTheme } from '../../theme/ICustomTheme';
+import {useNavigation} from 'expo-router';
+import {configApi} from '../../services/api/ApiConfig';
+import {useUser} from '../../contexts/UserContext';
+import {CustomTheme} from '../../theme/ICustomTheme';
+import {CommonActions} from '@react-navigation/native';
+import {logout} from '../../services/api/AuthService';
+
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -21,7 +24,7 @@ const screenHeight = Dimensions.get('window').height;
 type SlideInMenuProps = {
     onClose: () => void;
     user?: any;
-    menuItems:any;
+    menuItems: any;
 };
 
 export type SlideInMenuRef = {
@@ -29,12 +32,15 @@ export type SlideInMenuRef = {
 };
 
 const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
-    ({ onClose, user, menuItems }, ref) => {
-        const navigation = useNavigation();
-        const slideAnim = useRef( new Animated.Value(-screenWidth * 0.75) ).current;
+    ({onClose, user, menuItems}, ref) => {
+        
+        const slideAnim = useRef(
+            new Animated.Value(-screenWidth * 0.75)
+        ).current;
         const overlayOpacity = useRef(new Animated.Value(0)).current;
-        const { theme } = useUser();
-        const { colors } = theme as CustomTheme;
+        const {theme} = useUser();
+        const {colors} = theme as CustomTheme;
+        const navigation = useNavigation();
 
         const openMenu = () => {
             Animated.parallel([
@@ -77,19 +83,21 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
             openMenu();
         }, []);
 
+        
+
         return (
             <View style={styles.container}>
                 <TouchableOpacity
-                    style={[
-                        styles.overlay,
-                        { opacity: overlayOpacity }
-                    ]}
+                    style={[styles.overlay, {opacity: overlayOpacity}]}
                     onPress={animateMenuOut}
                 />
                 <Animated.View
                     style={[
                         styles.menu,
-                        { transform: [{ translateX: slideAnim }], backgroundColor: colors.background },
+                        {
+                            transform: [{translateX: slideAnim}],
+                            backgroundColor: colors.background,
+                        },
                     ]}
                 >
                     <MenuHeader
@@ -98,14 +106,15 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
                         energy={user.points?.points}
                         level={4}
                     />
+                    
                     <ScrollView>
-                        {menuItems.map((item:any) => (
+                        {menuItems.map((item: any) => (
                             <MenuListItem
                                 key={item._id} // Assuming each item has a unique _id
                                 navigation={navigation}
                                 link={item.link}
                                 text={item.text}
-                                fontColor={colors.text}
+                                fontColor={item.fontColor}
                                 library={item.library}
                                 iconName={item.iconName}
                                 backgroundColor={item.backgroundColor}
@@ -114,6 +123,7 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
                             />
                         ))}
                     </ScrollView>
+                    
                 </Animated.View>
             </View>
         );
@@ -144,7 +154,11 @@ const styles = StyleSheet.create({
     menu: {
         width: screenWidth * 0.75,
         height: screenHeight, // give it a fixed height for now
-    }
+    },
+    logoutButton: {
+       marginHorizontal: 20,
+       marginVertical: 15,
+    },
 });
 
 export default SlideInMenu;

@@ -23,15 +23,16 @@ export function InputPrimary({
   secureTextEntry = false,
   // ... other props
 }: InputPrimaryProps) {
-  const { theme } = useUser();
-  const { colors } = theme as CustomTheme;
+  const { colors } = useTheme() as CustomTheme;
+  // const { them e } = useUser();
+  // const { colors } = theme as CustomTheme;
 
   return (
     <View style={styles.root}>
       <TextInput
         style={{ ...styles.input, color: colors.text }}
         placeholder={placeholder}
-        placeholderTextColor={colors.lightFontFade}
+        placeholderTextColor={colors.text}
         onChangeText={onChangeText}
         value={value}
         onFocus={onFocus}

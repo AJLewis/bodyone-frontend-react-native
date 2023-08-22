@@ -8,6 +8,7 @@ import { WORKOUT_ACTIONS } from '../../constants/WorkoutActions';
 import { MEAL_ACTIONS } from '../../constants/MealActions';
 import { FetchStreaksAward } from '../../services/api/Streaks';
 import { UserContext, useUser} from '../../contexts/UserContext';
+import { ButtonTabs } from '../../templates/button-tabs/ButtonTabs';
 
 const Home: React.FC = () => {
     const { theme } = useUser();
@@ -66,12 +67,12 @@ const Home: React.FC = () => {
                 <PremiumBannerOrganism />
             </View>
             <View style={{...styles.wrapper}}>
-                <View>
-                <HorizontalInfoCardScroll
-                  title="Coming up next"
-                  cardsData={cardData}
-                />
-                </View>
+                {/* <View>
+                    <HorizontalInfoCardScroll
+                    title="Coming up next"
+                    cardsData={cardData}
+                    />
+                </View> */}
             </View>
         </ScrollView>
     );
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 25,
         textAlign: 'center',
-    },
+    }
 });
 
 export default Home;

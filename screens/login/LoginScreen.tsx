@@ -12,12 +12,11 @@ import {
 import { login } from '../../services/api/AuthService';
 import { CommonActions, useTheme } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
-import { Button, ButtonColor, ButtonSize, ButtonType } from '../../components/button/Button';
+import { Button, ButtonColor, ButtonSize, ButtonType, ButtonWidth } from '../../components/button/Button';
 import { CustomTheme } from 'theme/ICustomTheme';
 import { InputPrimary } from '../../components/input-primary/InputPrimary';
 import Logo from '../../assets/images/logo.png';
 import { TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useUser } from '../../contexts/UserContext';
 import { privateApi } from '../../services/api/ApiConfig';
 
@@ -97,7 +96,7 @@ function LoginScreen() {
       <View style={styles.container}>
         {!keyboardVisible && ( // Conditionally render the logo based on isInputFocused
               <View style={styles.logoContainer}>
-                <Image source={Logo} style={{ width: 210, height: 66 }} />
+                <Image source={Logo} style={{ width: 260, height: 52 }} />
               </View>
             )}
             
@@ -127,7 +126,9 @@ function LoginScreen() {
               </View>
               {error && <Text>{error}</Text>}
               <Text style={{ ...styles.forgotPassword, color: colors.btnPrimary }}>Forgotten Password?</Text>
-              <Button label="Login" type={ButtonType.Fill} color={ButtonColor.Primary} size={ButtonSize.Large} onPress={handleLogin} />
+              <View style={styles.loginBtn}>
+                <Button label="Login" type={ButtonType.Fill} color={ButtonColor.Primary} size={ButtonSize.Large} width={ButtonWidth.Full} onPress={handleLogin} />
+              </View>
               <View style={styles.signUpBtn}>
               <TouchableOpacity onPress={() => navigation.navigate('register')}>
                 <Text style={{ ...styles.needAnAccount, color: colors.btnPrimary }}>Need an account? Sign up for free</Text>
@@ -166,6 +167,11 @@ const styles = StyleSheet.create({
   fieldsContainer: {
     width: '95%',
     alignItems: 'center',
+    marginHorizontal:20,
+  },
+  loginBtn: {
+    width:'100%',
+    paddingHorizontal: 20
   },
   signUpBtn: {
     marginTop: 20,

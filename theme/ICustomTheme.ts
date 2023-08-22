@@ -17,6 +17,11 @@ type AdditionalColors = {
   tabSelected: string;
   highlightedTab: string;
   menuDividerColor: string;
+  cardDividerColor: string;
+  notificationBackgroundViewed: string;
+  notificationBackgroundUnviewed: string;
+  notificationIconBackgroundViewed: string;
+  notificationIconBackgroundUnviewed: string;
 }
 
 type AdditionalFonts = {

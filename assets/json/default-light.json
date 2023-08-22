@@ -1,0 +1,33 @@
+{
+  "dark": false,
+  "colors": {
+      "primary": "#076b76",
+      "background": "#f5f5f5",
+      "card": "#ffffff",
+      "dropdownBackground": "#e6e6e6",
+      "text": "#001a2b",
+      "border": "#d1d1d1",
+      "notification": "#c31111",
+      "tabBorder": "#d1d1d1",
+      "headerBackground": "#e6e6e6",
+      "premiumGold": "#ecc334",
+      "darkGold": "#c39c11",
+      "greenBackground": "#06712A",
+      "green": "#00c44f",
+      "btnPrimary": "#098896",
+      "btnSecondary": "#96095e",
+      "btnDisabled": "#c6c6c6",
+      "lightFontFade": "#8a8a8a",
+      "tabsBackground": "#e6e6e6",
+      "tabSelected": "#96095e",
+      "highlightedTab": "#098896",
+      "menuDividerColor": "#d1d1d1"
+  },
+  "fonts": {
+      "primary": "Roboto" 
+  },
+  "config": {
+      "name": "default",
+      "date": "2023-08-19"
+  }
+}

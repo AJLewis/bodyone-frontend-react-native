@@ -18,37 +18,31 @@ import Pill from '../pill/Pill';
 import IconWithCount from '../icon-with-count/icon-with-count';
 import Logo from '../../assets/images/logo.png';
 import SlideInMenu, {SlideInMenuRef} from '../slidein-menu/SlideInMenu';
+import {SlideInMessages} from '../../components/slide-in-messages/SlideInMessages';
 import {useUser} from '../../contexts/UserContext';
 import {configApi} from '../../services/api/ApiConfig';
 import IconComponent from '../../components/icon/IconComponent';
 
-
 const Header = () => {
-    const { theme } = useUser();
-    const { colors } = theme as CustomTheme;
+    const {theme} = useUser();
+    const {colors} = theme as CustomTheme;
     const [isMenuVisible, setMenuVisible] = useState(false);
     const slideMenuRef = useRef<SlideInMenuRef>(null);
     const [menuItems, setMenuItems] = useState([]);
-
+    const [isMessagesVisible, setMessagesVisible] = useState(false);
     const userFromContext = useUser().user;
+    const slideInMessagesRef = useRef<{ closeMessages: () => void } | null>(null);
 
     const handleHamburgerPress = () => {
         if (isMenuVisible) {
             slideMenuRef?.current?.animateMenuOut();
         } else {
+            // If SlideInMessages is visible, close it first
+            if (isMessagesVisible) {
+                slideInMessagesRef.current?.closeMessages?.();
+            }
             setMenuVisible(true);
         }
-    };
-
-    const handleCrownPress = () => {
-        Alert.alert('Confirmation', 'Do you want to proceed?', [
-            {
-                text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-            },
-            {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ]);
     };
 
     const handlePillPress = () => {
@@ -57,7 +51,15 @@ const Header = () => {
     };
 
     const handleNotificationPress = () => {
-        // Slide in the notificationsContainer from the right
+        if (isMessagesVisible) {
+            slideInMessagesRef.current?.closeMessages?.();
+        } else {
+            // If SlideInMenu is visible, close it first
+            if (isMenuVisible) {
+                slideMenuRef?.current?.animateMenuOut();
+            }
+            setMessagesVisible(true);
+        }
     };
 
     useEffect(() => {
@@ -92,6 +94,13 @@ const Header = () => {
                     user={userFromContext}
                     ref={slideMenuRef}
                     onClose={() => setMenuVisible(false)}
+                />
+            )}
+            {isMessagesVisible && (
+                <SlideInMessages
+                    ref={slideInMessagesRef}
+                    activeTab="Messages"
+                    onClose={() => setMessagesVisible(false)}
                 />
             )}
             <View style={styles.inner}>

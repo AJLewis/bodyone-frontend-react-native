@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
+import defaultTheme from '../assets/json/default-dark.json';
 
 export enum SubscriptionType {
   FREE = 'free',
@@ -54,7 +55,7 @@ export const UserContext = createContext<UserContextProps | undefined>(undefined
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null);
-  const [theme, setTheme] = useState<any>(null);
+  const [theme, setTheme] = useState<any>(null || defaultTheme);
 
   return (
     <UserContext.Provider value={{ user, setUser, theme, setTheme }}>

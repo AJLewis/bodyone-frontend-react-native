@@ -27,6 +27,11 @@ export const DarkTheme: CustomTheme = {
     tabSelected: designTokens.colors.secondary400,
     highlightedTab: designTokens.colors.primary300,
     menuDividerColor: designTokens.colors.tertiary400,
+    cardDividerColor: designTokens.colors.lightFontDefault,
+    notificationBackgroundViewed: designTokens.colors.tertiary500,
+    notificationBackgroundUnviewed: designTokens.colors.tertiary400, 
+    notificationIconBackgroundViewed: designTokens.colors.primary500, 
+    notificationIconBackgroundUnviewed: designTokens.colors.secondary400
   },
   fonts: {
     primary: designTokens.fonts.primary

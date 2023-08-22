@@ -17,9 +17,12 @@ import {
   Zocial
 } from '@expo/vector-icons';
 
+
+export type IconLibraryType = 'AntDesign' | 'Entypo' | 'EvilIcons' | 'Feather' | 'FontAwesome' | 'FontAwesome5' | 'Fontisto' | 'Foundation' | 'Ionicons' | 'MaterialCommunityIcons' | 'MaterialIcons' | 'Octicons' | 'SimpleLineIcons' | 'Zocial';
+
 type IconComponentProps = {
   name: any;
-  library: 'AntDesign' | 'Entypo' | 'EvilIcons' | 'Feather' | 'FontAwesome' | 'FontAwesome5' | 'Fontisto' | 'Foundation' | 'Ionicons' | 'MaterialCommunityIcons' | 'MaterialIcons' | 'Octicons' | 'SimpleLineIcons' | 'Zocial';
+  library: IconLibraryType,
   size?: number;
   color?: string;
   style?: StyleProp<ViewStyle>;

@@ -1,0 +1,35 @@
+{
+  "_id": "64e0a83fac57fb8638a11497",
+  "dark": true,
+  "colors": {
+      "primary": "#076b76",
+      "background": "#001a2b",
+      "card": "#0d2c40",
+      "dropdownBackground": "#11364f",
+      "text": "#ffffff",
+      "border": "#0d2c40",
+      "notification": "#c31111",
+      "tabBorder": "#0d2c40",
+      "headerBackground": "#0d2c40",
+      "premiumGold": "#ecc334",
+      "darkGold": "#c39c11",
+      "greenBackground": "#06712A",
+      "green": "#00c44f",
+      "btnPrimary": "#098896",
+      "btnSecondary": "#96095e",
+      "btnDisabled": "#363636",
+      "lightFontFade": "#c6c6c6",
+      "tabsBackground": "#0d2c40",
+      "tabSelected": "#96095e",
+      "highlightedTab": "#098896",
+      "menuDividerColor": "#153f59",
+      "cardDividerColor": "#153f59"
+  },
+  "fonts": {
+      "primary": "Roboto"
+  },
+  "config": {
+      "name": "default",
+      "date": "2023-08-19"
+  }
+}
