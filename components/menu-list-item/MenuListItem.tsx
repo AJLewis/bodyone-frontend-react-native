@@ -5,7 +5,7 @@ import NavigateByPath from '../../utils/NavigateByPath';
 
 type MenuListItemProps = {
   navigation: any;
-  link: string,
+  link?: string,
   backgroundColor?: string;
   fontColor: string;
   text: string;
@@ -13,6 +13,7 @@ type MenuListItemProps = {
   library: any;
   hideHorizontalLine?: boolean;
   dividerColor: string;
+  onPress?: () => void;
 };
 
 export const MenuListItem: React.FC<MenuListItemProps> = ({
@@ -24,10 +25,11 @@ export const MenuListItem: React.FC<MenuListItemProps> = ({
   iconName,
   library,
   hideHorizontalLine = false,
-  dividerColor
+  dividerColor,
+  onPress
 }) => {
   return (
-    <TouchableOpacity onPress={() => NavigateByPath(navigation, link)}>
+    <TouchableOpacity onPress={onPress && !link ? onPress : () => NavigateByPath(navigation, link as string)}>
       <View style={[styles.root, backgroundColor ? { backgroundColor } : {}]} >
         <IconComponent library={library} name={iconName} size={18} color={fontColor} style={styles.icon} />
         <Text style={[styles.text, { color: fontColor }]}>{text}</Text>

@@ -6,7 +6,7 @@ import { useUser } from '../../contexts/UserContext';
 
 export interface ButtonProps {
   type: ButtonType;
-  color?: ButtonColor;
+  color?: ButtonColor | string;
   label?: string;
   onPress?: () => void;
   size?: ButtonSize,
@@ -71,7 +71,7 @@ export function Button({ type, color = ButtonColor.Primary, label, onPress, size
       buttonSizeStyles[size].container,
       buttonWidthStyles[width],
       type === ButtonType.Outline && {...styles.buttonOutline, borderColor: color === ButtonColor.Primary ? colors.btnPrimary : colors.btnSecondary },
-      type === ButtonType.Fill && { backgroundColor: color === ButtonColor.Primary ? colors.btnPrimary : colors.btnSecondary },
+      type === ButtonType.Fill && { backgroundColor: Object.values(ButtonColor).includes(color as ButtonColor) ? (color === ButtonColor.Primary ? colors.btnPrimary : colors.btnSecondary) : color },
       type === ButtonType.Selected && { backgroundColor: color === ButtonColor.Primary ? colors.btnPrimary : colors.btnSecondary },
       type === ButtonType.Disabled && { backgroundColor: colors.btnDisabled },
     ].filter(Boolean),

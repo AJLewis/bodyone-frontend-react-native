@@ -7,6 +7,7 @@ import {useUser} from '../../contexts/UserContext';
 import {Button, ButtonColor, ButtonSize, ButtonType} from '../button/Button';
 import {useNavigation} from 'expo-router';
 import {logout} from '../../services/api/AuthService';
+import MenuListItem from '../../components/menu-list-item/MenuListItem';
 
 type MenuHeaderProps = {
     avatarUri: string;
@@ -78,13 +79,24 @@ export const MenuHeader: React.FC<MenuHeaderProps> = ({
                     </View>
                 </View>
             </View>
+            {/* <MenuListItem
+                navigation={navigation}
+                onPress={handleLogout}
+                text={'LOGOUT'}
+                fontColor={colors.text}
+                library={'SimpleLineIcons'}
+                iconName={'logout'}
+                backgroundColor={colors.logoutBackground}
+                hideHorizontalLine={true}
+                dividerColor={'transparent'}
+                            /> */}
             <View style={{
                         ...styles.logoutButton,
                         backgroundColor: colors.headerBackground,
                     }}>
                     <Button
                         type={ButtonType.Fill}
-                        color={ButtonColor.Primary}
+                        color={colors.logoutBackground}
                         label="Logout"
                         onPress={handleLogout}
                         size={ButtonSize.Small}

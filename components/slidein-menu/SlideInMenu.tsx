@@ -83,6 +83,19 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
             openMenu();
         }, []);
 
+        const goToAuth = () => {
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{name: 'auth'}],
+                })
+            );
+        };
+    
+        const handleLogout = async () => {
+            await logout();
+            goToAuth();
+        };
         
 
         return (
@@ -112,7 +125,7 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
                             <MenuListItem
                                 key={item._id} // Assuming each item has a unique _id
                                 navigation={navigation}
-                                link={item.link}
+                                link={item.link ? item.link : null}
                                 text={item.text}
                                 fontColor={item.fontColor}
                                 library={item.library}
@@ -120,6 +133,7 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
                                 backgroundColor={item.backgroundColor}
                                 hideHorizontalLine={item.hideHorizontalLine}
                                 dividerColor={colors.menuDividerColor}
+                                onPress={item.onPress ? item.onPress : null}
                             />
                         ))}
                     </ScrollView>

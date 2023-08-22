@@ -31,7 +31,8 @@ export const DarkTheme: CustomTheme = {
     notificationBackgroundViewed: designTokens.colors.tertiary500,
     notificationBackgroundUnviewed: designTokens.colors.tertiary400, 
     notificationIconBackgroundViewed: designTokens.colors.primary500, 
-    notificationIconBackgroundUnviewed: designTokens.colors.secondary400
+    notificationIconBackgroundUnviewed: designTokens.colors.secondary400,
+    logoutBackground: designTokens.colors.tertiary500,
   },
   fonts: {
     primary: designTokens.fonts.primary

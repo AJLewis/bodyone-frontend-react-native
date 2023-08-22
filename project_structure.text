@@ -1,0 +1,253 @@
+- .DS_Store
+- .expo
+  - README.md
+  - devices.json
+  - metro
+    - externals
+      - assert
+        - index.js
+      - async_hooks
+        - index.js
+      - buffer
+        - index.js
+      - child_process
+        - index.js
+      - cluster
+        - index.js
+      - console
+        - index.js
+      - constants
+        - index.js
+      - crypto
+        - index.js
+      - dgram
+        - index.js
+      - diagnostics_channel
+        - index.js
+      - dns
+        - index.js
+      - domain
+        - index.js
+      - events
+        - index.js
+      - fs
+        - index.js
+        - promises
+          - index.js
+      - http
+        - index.js
+      - http2
+        - index.js
+      - https
+        - index.js
+      - inspector
+        - index.js
+      - module
+        - index.js
+      - net
+        - index.js
+      - os
+        - index.js
+      - path
+        - index.js
+      - perf_hooks
+        - index.js
+      - process
+        - index.js
+      - punycode
+        - index.js
+      - querystring
+        - index.js
+      - readline
+        - index.js
+      - repl
+        - index.js
+      - stream
+        - index.js
+      - string_decoder
+        - index.js
+      - timers
+        - index.js
+      - tls
+        - index.js
+      - trace_events
+        - index.js
+      - tty
+        - index.js
+      - url
+        - index.js
+      - util
+        - index.js
+      - v8
+        - index.js
+      - vm
+        - index.js
+      - worker_threads
+        - index.js
+      - zlib
+        - index.js
+    - polyfill.js
+    - polyfill.native.js
+  - packager-info.json
+  - settings.json
+  - types
+    - router.d.ts
+  - web
+    - cache
+      - production
+        - images
+          - favicon
+            - favicon-24272cdaeff82cc5facdaccd982a6f05b60c4504704bbf94c19a6388659880bb-contain-transparent
+              - favicon-48.png
+- .gitignore
+- app
+  - (splash)
+    - _layout.tsx
+    - index
+      - _layout.tsx
+  - +html.tsx
+  - [...missing].tsx
+  - _layout.tsx
+  - auth
+    - _layout.tsx
+    - index
+      - _layout.tsx
+    - register
+      - _layout.tsx
+  - modal.tsx
+  - tabs
+    - _layout.tsx
+    - add
+      - _layout.tsx
+      - index
+        - _layout.tsx
+      - test
+        - _layout.tsx
+    - coach
+      - _layout.tsx
+      - index
+        - _layout.tsx
+      - test
+        - _layout.tsx
+    - health
+      - _layout.tsx
+      - index
+        - _layout.tsx
+      - test
+        - _layout.tsx
+    - index
+      - _layout.tsx
+      - index
+        - _layout.tsx
+      - test
+        - _layout.tsx
+    - more
+      - _layout.tsx
+      - index
+        - _layout.tsx
+      - test
+        - _layout.tsx
+  - test.tsx
+- app.json
+- assets
+  - fonts
+    - SpaceMono-Regular.ttf
+  - images
+    - adaptive-icon.png
+    - avatar.png
+    - favicon.png
+    - food.png
+    - icon.png
+    - logo.png
+    - logo.svg
+    - splash.png
+    - strength.png
+  - json
+    - default-dark.json
+    - default-light.json
+- babel.config.js
+- components
+  - button
+    - Button.tsx
+  - close-button
+    - CloseButton.tsx
+  - dropdown-buttons
+    - DropdownButtons.tsx
+  - header
+    - header.tsx
+  - icon
+    - IconComponent.tsx
+  - icon-with-count
+    - icon-with-count.tsx
+  - info-card
+    - InfoCard.tsx
+  - input-primary
+    - InputPrimary.tsx
+  - menu-header
+    - MenuHeader.tsx
+  - menu-list-item
+    - MenuListItem.tsx
+  - notification-item
+    - NotificationItem.tsx
+  - pill
+    - Pill.tsx
+  - premium-banner
+    - PremiumBannerOrganism.tsx
+  - slide-in-messages
+    - SlideInMessages.tsx
+  - slidein-menu
+    - SlideInMenu.tsx
+- constants
+  - Colors.ts
+  - MealActions.tsx
+  - WorkoutActions.tsx
+- contexts
+  - UserContext.tsx
+- designTokens
+  - index.ts
+- expo-env.d.ts
+- metro.config.js
+- package-lock.json
+- package.json
+- project_structure.text
+- project_structure.txt
+- screens
+  - home
+    - _layout.tsx
+  - login
+    - LoginScreen.tsx
+  - register
+    - RegisterScreen.tsx
+  - splash
+    - SplashScreen.tsx
+  - test
+    - _layout.tsx
+- services
+  - api
+    - ApiConfig.ts
+    - AuthService.ts
+    - Streaks.tsx
+    - index.tsx
+- templates
+  - button-tabs
+    - ButtonTabs.tsx
+  - horizontal-info-card-scroll-template
+    - HorizontalInfoCardScroll.tsx
+- theme
+  - ICustomTheme.ts
+  - dark-theme.ts
+  - default-theme.ts
+- tsconfig.json
+- types
+  - declarations.d.ts
+- utils
+  - ExternalLink.tsx
+  - HandleTabPress.tsx
+  - NavigateByPath.tsx
+  - StyledText.tsx
+  - Themed.tsx
+  - converters
+    - RecipeToInfoCard.tsx
+    - WorkoutToInfoCard.tsx
+- yarn-error.log
+- yarn.lock
