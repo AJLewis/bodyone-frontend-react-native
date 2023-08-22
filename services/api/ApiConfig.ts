@@ -2,10 +2,10 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // 5001
-const BASE_URL = 'https://4741-91-196-221-208.ngrok.io';
+const BASE_URL = 'https://9924-91-196-221-208.ngrok.io';
 
 //4001
-const CONFIG_URL = 'https://36fa-91-196-221-208.ngrok.io';
+const CONFIG_URL = 'https://d24d-91-196-221-208.ngrok.io';
 
 const publicApi = axios.create({
   baseURL: `${BASE_URL}/api/public`,
