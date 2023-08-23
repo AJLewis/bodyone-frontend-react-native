@@ -16,7 +16,7 @@ export interface ISubscription {
 }
 
 export interface IUser {
-  id: any;
+  _id: any;
   username: string;
   password: string; // Note: You might want to exclude this from some operations for security reasons.
   email: string;
@@ -40,6 +40,29 @@ export interface IUser {
   accountCreated: Date;
 }
 
+export interface IMessage {
+  sender: IUser;
+  receiver: IUser;
+  previousMessage?: IMessage;
+  subject: string;
+  content: string;
+  date: Date;
+  viewed: boolean;
+}
+
+export interface INotification {
+  user: IUser;
+  content: string;
+  date: Date;
+  viewed: boolean;
+  action?: IAction;
+}
+
+export interface IAction {
+  type: string;
+  payload: any;
+}
+
 interface UserProviderProps {
   children: React.ReactNode;
 }
@@ -49,6 +72,11 @@ interface UserContextProps {
   setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
   theme: any; // You can replace 'any' with a more specific type if you have one for the theme.
   setTheme: React.Dispatch<React.SetStateAction<any>>; 
+  messages: IMessage[];
+  setMessages: React.Dispatch<React.SetStateAction<IMessage[]>>;
+  notifications: INotification[];
+  setNotifications: React.Dispatch<React.SetStateAction<INotification[]>>;
+
 }
 
 export const UserContext = createContext<UserContextProps | undefined>(undefined);
@@ -56,9 +84,11 @@ export const UserContext = createContext<UserContextProps | undefined>(undefined
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [theme, setTheme] = useState<any>(null || defaultTheme);
+  const [notifications, setNotifications] = useState<any>(null);
+  const [messages, setMessages] = useState<any>(null);
 
   return (
-    <UserContext.Provider value={{ user, setUser, theme, setTheme }}>
+    <UserContext.Provider value={{ user, setUser, theme, setTheme, notifications, setNotifications, messages, setMessages}}>
       {children}
     </UserContext.Provider>
   );

@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {View, ActivityIndicator, StyleSheet, Image} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, ActivityIndicator, StyleSheet, Image, Text} from 'react-native';
 import jwtDecode from 'jwt-decode';
 import {useNavigation} from 'expo-router';
 import Logo from '../../assets/images/logo.png';
@@ -7,6 +7,9 @@ import {useUser} from '../../contexts/UserContext';
 import {privateApi, configApi} from '../../services/api/ApiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CommonActions} from '@react-navigation/native';
+import {useMenu} from '../../contexts/UseMenuContext';
+import { CustomTheme } from '../../theme/ICustomTheme';
+import { checkAuthStatus } from '../../utils/AuthHelper';
 
 interface DecodedToken {
     exp?: number;
@@ -15,7 +18,10 @@ interface DecodedToken {
 
 function SplashScreen() {
     const navigation = useNavigation();
-    const {setUser, setTheme} = useUser(); // Assuming you have a setTheme method in your UserContext
+    const {theme, setUser, setTheme, setNotifications, setMessages} = useUser(); // Assuming you have a setTheme method in your UserContext
+    const { colors } = theme as CustomTheme;
+    const {setSlideInNavigation} = useMenu();
+    const [status, setStatus] = useState("Preparing data");
 
     const isTokenExpired = (token: string): boolean => {
         const decoded = jwtDecode(token) as DecodedToken;
@@ -27,44 +33,7 @@ function SplashScreen() {
     };
 
     useEffect(() => {
-        const checkAuthStatus = async () => {
-            const token = await AsyncStorage.getItem('jwt_token');
-            const userId = await AsyncStorage.getItem('userId');
-            const forceLogin = false;
-            if (token && userId) {
-                if (isTokenExpired(token) || forceLogin) {
-                    console.log('TOKEN EXPIRED !!!!!!!!!!!!!!');
-                    goToAuth();
-                    return;
-                }
-
-                // Fetch the user data using the privateApi
-                try {
-                    console.log('FETCHING USER !!!!!!!!!!!!!!');
-                    const response = await privateApi.get(
-                        `/user/basic/${userId}`
-                    );
-                    const userData = response.data;
-                    setUser(userData); // Set the user data in the context
-                    console.log(userData);
-                    // Fetch the theme based on the user's theme preference
-                    const themeResponse = await configApi.get(
-                        `/theme/${userData.theme}`
-                    );
-                    console.log(userData.theme);
-                    const userTheme = themeResponse.data;
-                    setTheme(userTheme); // Set the theme data in the context
-                    goToTabs();
-                } catch (error) {
-                    console.error('Failed to fetch user data or theme:', error);
-                    goToAuth();
-                }
-            } else {
-                goToAuth();
-            }
-        };
-
-        checkAuthStatus();
+        checkAuthStatus(setStatus, setUser, setTheme, setMessages, setNotifications, setSlideInNavigation, goToAuth, goToTabs);
     }, [navigation, setUser, setTheme]);
 
     const goToTabs = () => {
@@ -88,8 +57,12 @@ function SplashScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.logoContainer}>
-                <Image source={Logo} style={{ width: 260, height: 52 }} />
-              </View>
+                <Image
+                    source={Logo}
+                    style={{width: 260, height: 52}}
+                />
+            </View>
+            <Text style={{...styles.status, color: colors.text}}>{status}</Text>
             <View style={styles.loaderContainer}>
                 <ActivityIndicator
                     size="large"
@@ -107,16 +80,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     logoContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 20
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
     },
     loaderContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
+    status:{},
     logo: {
         width: 210,
         height: 66,

@@ -16,7 +16,8 @@ import {useUser} from '../../contexts/UserContext';
 import {CustomTheme} from '../../theme/ICustomTheme';
 import {CommonActions} from '@react-navigation/native';
 import {logout} from '../../services/api/AuthService';
-
+import { useMenu } from '../../contexts/UseMenuContext';
+import { Button, ButtonSize, ButtonType } from '../button/Button';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -24,7 +25,6 @@ const screenHeight = Dimensions.get('window').height;
 type SlideInMenuProps = {
     onClose: () => void;
     user?: any;
-    menuItems: any;
 };
 
 export type SlideInMenuRef = {
@@ -32,8 +32,9 @@ export type SlideInMenuRef = {
 };
 
 const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
-    ({onClose, user, menuItems}, ref) => {
-        
+    ({onClose, user}, ref) => {
+
+
         const slideAnim = useRef(
             new Animated.Value(-screenWidth * 0.75)
         ).current;
@@ -41,6 +42,8 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
         const {theme} = useUser();
         const {colors} = theme as CustomTheme;
         const navigation = useNavigation();
+        const { slideInNavigation } = useMenu() as any;
+        const { menuItems } = slideInNavigation
 
         const openMenu = () => {
             Animated.parallel([
@@ -91,12 +94,11 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
                 })
             );
         };
-    
+
         const handleLogout = async () => {
             await logout();
             goToAuth();
         };
-        
 
         return (
             <View style={styles.container}>
@@ -119,7 +121,7 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
                         energy={user.points?.points}
                         level={4}
                     />
-                    
+
                     <ScrollView>
                         {menuItems.map((item: any) => (
                             <MenuListItem
@@ -137,6 +139,15 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
                             />
                         ))}
                     </ScrollView>
+                    <View style={styles.logoutButton}>
+                        <Button
+                            type={ButtonType.Fill}
+                            color={colors.logoutBackground}
+                            label="Logout"
+                            onPress={handleLogout}
+                            size={ButtonSize.Small}
+                        />
+                    </View>
                     
                 </Animated.View>
             </View>
@@ -149,7 +160,7 @@ const styles = StyleSheet.create({
         flex: 1,
         position: 'absolute',
         left: 0,
-        top: 104,
+        top: 103,
         bottom: 0,
         right: 0,
         backgroundColor: 'rgba(0,0,0,0.3)', // semi-transparent background
@@ -170,8 +181,7 @@ const styles = StyleSheet.create({
         height: screenHeight, // give it a fixed height for now
     },
     logoutButton: {
-       marginHorizontal: 20,
-       marginVertical: 15,
+        margin: 20
     },
 });
 

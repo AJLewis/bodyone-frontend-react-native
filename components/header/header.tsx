@@ -24,15 +24,14 @@ import {configApi} from '../../services/api/ApiConfig';
 import IconComponent from '../../components/icon/IconComponent';
 
 const Header = () => {
-    const {theme} = useUser();
+    const {theme, messages, notifications} = useUser();
+    const userFromContext = useUser().user;
     const {colors} = theme as CustomTheme;
     const [isMenuVisible, setMenuVisible] = useState(false);
     const slideMenuRef = useRef<SlideInMenuRef>(null);
-    const [menuItems, setMenuItems] = useState([]);
     const [isMessagesVisible, setMessagesVisible] = useState(false);
-    const userFromContext = useUser().user;
     const slideInMessagesRef = useRef<{ closeMessages: () => void } | null>(null);
-
+    const count = messages.filter((x) => x.viewed === false)?.length + notifications.filter((x) => x.viewed === false)?.length 
     const handleHamburgerPress = () => {
         if (isMenuVisible) {
             slideMenuRef?.current?.animateMenuOut();
@@ -62,25 +61,6 @@ const Header = () => {
         }
     };
 
-    useEffect(() => {
-        8;
-        // Fetch the navigation menu from the backend
-        const fetchNavigationMenu = async () => {
-            try {
-                const response = await configApi.get(
-                    `/navigation-menu/slide-in-main-menu`
-                );
-                if (response.data && response.data.menuItems) {
-                    setMenuItems(response.data.menuItems);
-                }
-            } catch (error) {
-                console.error('Error fetching navigation menu:', error);
-            }
-        };
-
-        fetchNavigationMenu();
-    }, []);
-
     return (
         <SafeAreaView
             style={{
@@ -90,7 +70,6 @@ const Header = () => {
         >
             {isMenuVisible && (
                 <SlideInMenu
-                    menuItems={menuItems}
                     user={userFromContext}
                     ref={slideMenuRef}
                     onClose={() => setMenuVisible(false)}
@@ -106,11 +85,12 @@ const Header = () => {
             <View style={styles.inner}>
                 {/* Left Group: Hamburger Menu and Logo */}
                 <View style={styles.leftGroup}>
-                    <Feather
-                        name="menu"
-                        style={{...styles.hamburgerMenu, color: colors.text}}
+                    <IconComponent
+                        library={'Feather'}
+                        name={'menu'}
                         size={32}
                         onPress={handleHamburgerPress}
+                        color={isMenuVisible ? colors.btnPrimary : colors.text}
                     />
                     <View
                         style={{
@@ -140,10 +120,10 @@ const Header = () => {
                         {/* Notification Icon */}
                         <IconWithCount
                             iconName="notifications"
-                            iconColor={colors.text}
-                            circleColor={colors.green}
-                            textColor="white"
-                            count={12}
+                            iconColor={isMessagesVisible ? colors.btnPrimary : colors.text}
+                            circleColor={colors.greenBackground}
+                            textColor={colors.text}
+                            count={count}
                         />
                     </Pressable>
                 </View>

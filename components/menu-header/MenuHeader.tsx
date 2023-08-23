@@ -79,29 +79,6 @@ export const MenuHeader: React.FC<MenuHeaderProps> = ({
                     </View>
                 </View>
             </View>
-            {/* <MenuListItem
-                navigation={navigation}
-                onPress={handleLogout}
-                text={'LOGOUT'}
-                fontColor={colors.text}
-                library={'SimpleLineIcons'}
-                iconName={'logout'}
-                backgroundColor={colors.logoutBackground}
-                hideHorizontalLine={true}
-                dividerColor={'transparent'}
-                            /> */}
-            <View style={{
-                        ...styles.logoutButton,
-                        backgroundColor: colors.headerBackground,
-                    }}>
-                    <Button
-                        type={ButtonType.Fill}
-                        color={colors.logoutBackground}
-                        label="Logout"
-                        onPress={handleLogout}
-                        size={ButtonSize.Small}
-                    />
-                </View>
         </View>
     );
 };

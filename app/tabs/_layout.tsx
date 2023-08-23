@@ -32,6 +32,7 @@ export default function TabLayout() {
     const { theme } = useUser();
     const { colors } = theme as CustomTheme;
     NavigationBar.setVisibilityAsync('hidden');
+    NavigationBar.setBehaviorAsync('overlay-swipe');
 
   
     const navigation = useNavigation();

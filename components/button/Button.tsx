@@ -90,7 +90,7 @@ export function Button({ type, color = ButtonColor.Primary, label, onPress, size
         {label}
       </Text>
       {count && count > 0 && (
-        <View style={[styles.circle, { backgroundColor: colors.notification }]}>
+        <View style={[styles.circle, { backgroundColor: colors.greenBackground }]}>
           <Text style={[styles.countText, { color: 'white' }]}>{count}</Text>
         </View>
       )}
@@ -114,8 +114,8 @@ const styles = StyleSheet.create({
   },
   circle: {
     position: 'absolute',
-    top: -3,
-    right: -3,
+    top: -7,
+    right: 3,
     padding: 3,
     borderRadius: 10,
     alignItems: 'center',
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
     maxHeight: 20,
+    minWidth:20
   },
   countText: {
     marginTop: -1,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import IconComponent from '../icon/IconComponent';
 
 type IconWithCountProps = {
   iconName: any;
@@ -19,7 +20,13 @@ const IconWithCount: React.FC<IconWithCountProps> = ({
 }) => {
   return (
     <View style={styles.container}>
-      <Ionicons name={iconName} size={24} color={iconColor} />
+      <IconComponent
+          library={'FontAwesome'}
+          name={'envelope-o'}
+          size={24}
+          color={iconColor}
+          style={styles.icon}
+                    />
       {count > 0 && (
         <View style={[styles.circle, { backgroundColor: circleColor }]}>
           <Text style={[styles.text, { color: textColor }]}>{count}</Text>
@@ -37,8 +44,8 @@ const styles = StyleSheet.create({
   },
   circle: {
     position: 'absolute',
-    top: -3,
-    right: -3,
+    top: -4,
+    right: -4,
     padding:3,
     borderRadius: 10,
     alignItems: 'center',
@@ -46,6 +53,10 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
     maxHeight:20,
+    minWidth:20
+  },
+  icon: {
+    marginRight: 5
   },
   text: {
     marginTop:-1,

@@ -8,6 +8,7 @@ import { DarkTheme } from '../theme/dark-theme';
 import { DefaultTheme } from '../theme/default-theme';
 import Header  from '../components/header/header';
 import { UserProvider } from '../contexts/UserContext';
+import { MenuProvider } from '../contexts/UseMenuContext';
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -49,6 +50,7 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
   return (
     <UserProvider>
+       <MenuProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <>
         <Stack>
@@ -59,6 +61,7 @@ function RootLayoutNav() {
         </Stack>
         </>
       </ThemeProvider>
+      </MenuProvider>
     </UserProvider>
   );
 }

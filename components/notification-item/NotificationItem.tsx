@@ -33,7 +33,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
           </View>
           <View style={styles.textContainer}>
               <Text style={[styles.title, { fontFamily: theme.fonts.primary, fontWeight: fontWeight }]}>{title}</Text>
-              <Text style={[styles.content, { fontFamily: theme.fonts.primary, fontWeight: fontWeight }]}>{content}</Text>
+              <Text numberOfLines={1} style={[styles.content, { fontFamily: theme.fonts.primary, fontWeight: fontWeight }]}>{content}</Text>
           </View>
           <View style={[styles.indicator, { backgroundColor: iconBgColor }]} />
       </View>
@@ -64,11 +64,13 @@ const styles = StyleSheet.create({
         fontFamily: 'Helvetica Neue',
         fontSize: 14,
         fontWeight: '700',
+        marginBottom: 3,
     },
     content: {
         color: '#FFF',
         fontFamily: 'Helvetica Neue',
         fontSize: 12,
+        paddingRight: 20,
         fontWeight: '700',
     },
     indicator: {
