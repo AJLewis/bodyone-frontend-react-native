@@ -44,11 +44,6 @@ const Header = () => {
         }
     };
 
-    const handlePillPress = () => {
-        console.log('pill pressed');
-        // navigation.navigate('Energy');
-    };
-
     const handleNotificationPress = () => {
         if (isMessagesVisible) {
             slideInMessagesRef.current?.closeMessages?.();
@@ -90,7 +85,7 @@ const Header = () => {
                         name={'menu'}
                         size={32}
                         onPress={handleHamburgerPress}
-                        color={isMenuVisible ? colors.btnPrimary : colors.text}
+                        color={colors.text}
                     />
                     <View
                         style={{
@@ -119,8 +114,9 @@ const Header = () => {
                     <Pressable onPress={handleNotificationPress}>
                         {/* Notification Icon */}
                         <IconWithCount
-                            iconName="notifications"
-                            iconColor={isMessagesVisible ? colors.btnPrimary : colors.text}
+                            iconLibrary={'FontAwesome'}
+                            iconName={'envelope-o'}
+                            iconColor={colors.text}
                             circleColor={colors.greenBackground}
                             textColor={colors.text}
                             count={count}

@@ -63,9 +63,9 @@ const Home: React.FC = () => {
     ]
     return (
         <ScrollView style={{...styles.container, backgroundColor: colors.background}}>
-            <View style={{...styles.banner, ...styles.banner}}>
+            {/* <View style={{...styles.banner, ...styles.banner}}>
                 <PremiumBannerOrganism />
-            </View>
+            </View> */}
             <View style={{...styles.wrapper}}>
                 {/* <View>
                     <HorizontalInfoCardScroll

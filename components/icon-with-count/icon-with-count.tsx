@@ -5,6 +5,7 @@ import IconComponent from '../icon/IconComponent';
 
 type IconWithCountProps = {
   iconName: any;
+  iconLibrary: any
   iconColor: string;
   circleColor: string;
   textColor: string;
@@ -13,6 +14,7 @@ type IconWithCountProps = {
 
 const IconWithCount: React.FC<IconWithCountProps> = ({
   iconName,
+  iconLibrary,
   iconColor,
   circleColor,
   textColor,
@@ -21,8 +23,8 @@ const IconWithCount: React.FC<IconWithCountProps> = ({
   return (
     <View style={styles.container}>
       <IconComponent
-          library={'FontAwesome'}
-          name={'envelope-o'}
+          library={iconLibrary}
+          name={iconName}
           size={24}
           color={iconColor}
           style={styles.icon}

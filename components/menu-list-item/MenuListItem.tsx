@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import IconComponent from '../icon/IconComponent'; // Update the path accordingly
 import NavigateByPath from '../../utils/NavigateByPath';
+import { useUser } from '../../contexts/UserContext';
+import { CustomTheme } from '../../theme/ICustomTheme';
 
 type MenuListItemProps = {
   navigation: any;
@@ -28,10 +30,15 @@ export const MenuListItem: React.FC<MenuListItemProps> = ({
   dividerColor,
   onPress
 }) => {
+  const { theme } = useUser();
+  const { colors } = theme as CustomTheme;
   return (
     <TouchableOpacity onPress={onPress && !link ? onPress : () => NavigateByPath(navigation, link as string)}>
       <View style={[styles.root, backgroundColor ? { backgroundColor } : {}]} >
-        <IconComponent library={library} name={iconName} size={18} color={fontColor} style={styles.icon} />
+        <View style={{...styles.iconContainer, backgroundColor: colors.primary}}>
+          <IconComponent library={library} name={iconName} size={12} color={fontColor} style={styles.icon} />
+        </View>
+       
         <Text style={[styles.text, { color: fontColor }]}>{text}</Text>
         {!backgroundColor && !hideHorizontalLine && <View style={{...styles.horizontalRule, borderBottomColor: dividerColor}} />}
       </View>
@@ -44,8 +51,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    paddingHorizontal: 20,
-    paddingVertical: 18
+    paddingHorizontal: 35,
+    paddingVertical: 9
+  },
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
+    width: 30,
+    height:30
   },
   icon: {
     width: 40,
@@ -53,12 +67,11 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop:2,
-    marginLeft:10,
+    marginLeft:15,
     fontSize: 15,
     fontStyle: 'normal',
-    fontWeight: '700',
+    fontWeight: '400',
     lineHeight: 16,
-    textTransform: 'uppercase',
   },
   horizontalRule: {
     borderBottomWidth: 1,

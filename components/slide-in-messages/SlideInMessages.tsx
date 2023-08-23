@@ -41,6 +41,10 @@ export const SlideInMessages = React.forwardRef(
 
         const [currentTab, setCurrentTab] = useState(props.activeTab);
 
+        const handleMessagePress = () => {};
+
+        const handleNotificationPress = () => {};
+
         React.useImperativeHandle(ref, () => ({
             closeMessages,
         }));
@@ -128,11 +132,16 @@ export const SlideInMessages = React.forwardRef(
                                     key={index}
                                 >
                                     <NotificationItem
+                                        onPress={handleMessagePress}
                                         title={message.subject}
                                         content={message.content}
                                         viewed={message.viewed}
                                         iconLibrary={'FontAwesome'}
-                                        iconName={!message.viewed ? 'envelope' : 'envelope-open' }
+                                        iconName={
+                                            !message.viewed
+                                                ? 'envelope'
+                                                : 'envelope-open'
+                                        }
                                     />
                                 </View>
                             ))}
@@ -145,6 +154,7 @@ export const SlideInMessages = React.forwardRef(
                                     key={index}
                                 >
                                     <NotificationItem
+                                        onPress={handleMessagePress}
                                         title={notification.content}
                                         content={new Date(
                                             notification.date
@@ -157,7 +167,11 @@ export const SlideInMessages = React.forwardRef(
                                         })}
                                         viewed={notification.viewed}
                                         iconLibrary={'FontAwesome'}
-                                        iconName={!notification.viewed ? 'bell' : 'bell-o'}
+                                        iconName={
+                                            !notification.viewed
+                                                ? 'bell'
+                                                : 'bell-o'
+                                        }
                                     />
                                 </View>
                             ))}

@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import IconComponent, {IconLibraryType} from '../icon/IconComponent';
 import {useUser} from '../../contexts/UserContext';
 import {CustomTheme} from '../../theme/ICustomTheme';
+import { Pressable } from 'react-native/Libraries/Components/Pressable/Pressable';
 
 type NotificationItemProps = {
     title: string;
@@ -10,6 +11,7 @@ type NotificationItemProps = {
     viewed: boolean;
     iconLibrary: IconLibraryType;
     iconName: any;
+    onPress: () => void;
 };
 
 export const NotificationItem: React.FC<NotificationItemProps> = ({
@@ -18,6 +20,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
     viewed,
     iconLibrary,
     iconName,
+    onPress
 }) => {
     const {theme} = useUser();
     const { colors } = theme as CustomTheme;
@@ -27,7 +30,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
     const iconBgColor = viewed ? colors.notificationIconBackgroundViewed : colors.notificationIconBackgroundUnviewed;
 
     return (
-      <View style={[styles.root, { backgroundColor: bgColor }]}>
+      <TouchableOpacity style={[styles.root, { backgroundColor: bgColor }]} onPress={onPress}>
           <View style={[styles.iconContainer, { backgroundColor: iconBgColor }]}>
               <IconComponent name={iconName} library={iconLibrary} size={20} color="#FFF" />
           </View>
@@ -36,7 +39,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
               <Text numberOfLines={1} style={[styles.content, { fontFamily: theme.fonts.primary, fontWeight: fontWeight }]}>{content}</Text>
           </View>
           <View style={[styles.indicator, { backgroundColor: iconBgColor }]} />
-      </View>
+      </TouchableOpacity>
   );
 };
 

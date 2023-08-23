@@ -8,6 +8,8 @@ type PillProps = {
   textColor: string;
   backgroundColor: string;
   textSize: number;
+  paddingVertical?: number,
+  paddingHorizontal?: number,
   iconLibrary: 'AntDesign' | 'Entypo' | 'EvilIcons' | 'Feather' | 'FontAwesome' | 'FontAwesome5' | 'Fontisto' | 'Foundation' | 'Ionicons' | 'MaterialCommunityIcons' | 'MaterialIcons' | 'Octicons' | 'SimpleLineIcons' | 'Zocial';
 };
 
@@ -18,10 +20,12 @@ const Pill: React.FC<PillProps> = ({
   backgroundColor,
   textSize,
   iconLibrary,
+  paddingVertical,
+  paddingHorizontal
 }) => {
   return (
-    <View style={[styles.container, { backgroundColor }]}>
-      <IconComponent library={iconLibrary} name={iconName} size={textSize} color={textColor} />
+    <View style={{...styles.container, backgroundColor: backgroundColor, paddingVertical: paddingVertical ? paddingVertical : 3, paddingHorizontal: paddingHorizontal ? paddingHorizontal : 5, }}>
+      <IconComponent library={iconLibrary} name={iconName} size={textSize - 2} color={textColor} />
       <Text style={[styles.text, { color: textColor, fontSize: textSize }]}>
         {text}
       </Text>
@@ -33,13 +37,12 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 5,
-    paddingVertical: 3,
     borderRadius: 5,
   },
   text: {
     fontWeight: 'bold',
-    marginLeft: 2
+    marginLeft: 2,
+    marginTop:-1
   },
 });
 

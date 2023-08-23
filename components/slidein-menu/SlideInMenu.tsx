@@ -16,8 +16,8 @@ import {useUser} from '../../contexts/UserContext';
 import {CustomTheme} from '../../theme/ICustomTheme';
 import {CommonActions} from '@react-navigation/native';
 import {logout} from '../../services/api/AuthService';
-import { useMenu } from '../../contexts/UseMenuContext';
-import { Button, ButtonSize, ButtonType } from '../button/Button';
+import {useMenu} from '../../contexts/UseMenuContext';
+import {Button, ButtonSize, ButtonType} from '../button/Button';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -33,8 +33,6 @@ export type SlideInMenuRef = {
 
 const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
     ({onClose, user}, ref) => {
-
-
         const slideAnim = useRef(
             new Animated.Value(-screenWidth * 0.75)
         ).current;
@@ -42,8 +40,8 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
         const {theme} = useUser();
         const {colors} = theme as CustomTheme;
         const navigation = useNavigation();
-        const { slideInNavigation } = useMenu() as any;
-        const { menuItems } = slideInNavigation
+        const {slideInNavigation} = useMenu() as any;
+        const {menuItems} = slideInNavigation;
 
         const openMenu = () => {
             Animated.parallel([
@@ -122,7 +120,10 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
                         level={4}
                     />
 
-                    <ScrollView>
+                    <ScrollView
+                        style={styles.list}
+                        
+                    >
                         {menuItems.map((item: any) => (
                             <MenuListItem
                                 key={item._id} // Assuming each item has a unique _id
@@ -132,7 +133,7 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
                                 fontColor={item.fontColor}
                                 library={item.library}
                                 iconName={item.iconName}
-                                backgroundColor={item.backgroundColor}
+                                backgroundColor={'transparent'}
                                 hideHorizontalLine={item.hideHorizontalLine}
                                 dividerColor={colors.menuDividerColor}
                                 onPress={item.onPress ? item.onPress : null}
@@ -148,7 +149,6 @@ const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
                             size={ButtonSize.Small}
                         />
                     </View>
-                    
                 </Animated.View>
             </View>
         );
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         flex: 1,
         position: 'absolute',
         left: 0,
-        top: 103,
+        top: 102,
         bottom: 0,
         right: 0,
         backgroundColor: 'rgba(0,0,0,0.3)', // semi-transparent background
@@ -176,12 +176,15 @@ const styles = StyleSheet.create({
         bottom: 0,
         right: 0,
     },
+    list: {
+        marginTop: 30
+    },
     menu: {
         width: screenWidth * 0.75,
         height: screenHeight, // give it a fixed height for now
     },
     logoutButton: {
-        margin: 20
+        margin: 20,
     },
 });
 

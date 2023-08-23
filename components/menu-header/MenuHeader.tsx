@@ -58,6 +58,7 @@ export const MenuHeader: React.FC<MenuHeaderProps> = ({
                         <Text style={[styles.username, {color: colors.text}]}>
                             {username}
                         </Text>
+                        
                         <View style={styles.pillsContainer}>
                             <Pill
                                 iconLibrary="SimpleLineIcons"
@@ -65,7 +66,9 @@ export const MenuHeader: React.FC<MenuHeaderProps> = ({
                                 text={`${energy}`}
                                 textColor={colors.text}
                                 backgroundColor={colors.darkGold}
-                                textSize={12}
+                                textSize={14}
+                                paddingHorizontal={10}
+                                paddingVertical={6}
                             />
                             <Pill
                                 iconLibrary="Ionicons"
@@ -73,7 +76,9 @@ export const MenuHeader: React.FC<MenuHeaderProps> = ({
                                 text={`${level}`}
                                 textColor={colors.text}
                                 backgroundColor={colors.greenBackground}
-                                textSize={12}
+                                textSize={14}
+                                paddingHorizontal={10}
+                                paddingVertical={6}
                             />
                         </View>
                     </View>
@@ -89,7 +94,9 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 20,
+        paddingHorizontal: 20,
+        paddingBottom: 25,
+        paddingTop: 10,
     },
     background: {
         position: 'absolute',
@@ -103,8 +110,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     avatar: {
-        width: 61,
-        height: 61,
+        width: 71,
+        height: 71,
         borderRadius: 30.5,
         marginRight: 20,
     },
@@ -127,6 +134,10 @@ const styles = StyleSheet.create({
     logoutButton: {
         paddingBottom: 20,
         paddingHorizontal: 20,
+    },
+    horizontalRule: {
+      borderBottomWidth: 3,
+      marginVertical: 5,
     },
 });
 
