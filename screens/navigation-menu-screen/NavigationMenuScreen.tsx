@@ -1,4 +1,4 @@
-import MenuHeader from '../menu-header/MenuHeader';
+import MenuHeader from '../../components/menu-header/MenuHeader';
 import React, {useRef, useEffect, useState} from 'react';
 import {
     View,
@@ -9,7 +9,7 @@ import {
     ScrollView,
 } from 'react-native';
 import {Avatar} from '../../assets/images/avatar.png';
-import MenuListItem from '../menu-list-item/MenuListItem';
+import MenuListItem from '../../components/menu-list-item/MenuListItem';
 import {useNavigation} from 'expo-router';
 import {configApi} from '../../services/api/ApiConfig';
 import {useUser} from '../../contexts/UserContext';
@@ -17,21 +17,21 @@ import {CustomTheme} from '../../theme/ICustomTheme';
 import {CommonActions} from '@react-navigation/native';
 import {logout} from '../../services/api/AuthService';
 import {useMenu} from '../../contexts/UseMenuContext';
-import {Button, ButtonSize, ButtonType} from '../button/Button';
+import {Button, ButtonSize, ButtonType} from '../../components/button/Button';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-type SlideInMenuProps = {
+type NavigationMenuScreenProps = {
     onClose: () => void;
     user?: any;
 };
 
-export type SlideInMenuRef = {
+export type NavigationMenuScreenRef = {
     animateMenuOut: () => void;
 };
 
-const SlideInMenu = React.forwardRef<SlideInMenuRef, SlideInMenuProps>(
+const NavigationMenuScreen = React.forwardRef<NavigationMenuScreenRef, NavigationMenuScreenProps>(
     ({onClose, user}, ref) => {
         const slideAnim = useRef(
             new Animated.Value(-screenWidth * 0.75)
@@ -188,4 +188,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SlideInMenu;
+export default NavigationMenuScreen;

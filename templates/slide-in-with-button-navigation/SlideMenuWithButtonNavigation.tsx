@@ -94,7 +94,7 @@ export const SlideMenuWithButtonNavigation = React.forwardRef(
         };
 
         useEffect(() => {
-          openMenu();
+            openMenu();
         }, []);
 
         return (
@@ -123,16 +123,14 @@ export const SlideMenuWithButtonNavigation = React.forwardRef(
                             tabs={tabs}
                         />
 
-<CloseButton onPress={closeMenu} />
+                        <CloseButton onPress={closeMenu} />
                     </View>
-                        {props.children.map((child, index) => {
-                            if (currentTab === child.tabName) {
-                                return (
-                                    <View key={index}>{child.component}</View>
-                                );
-                            }
-                            return null;
-                        })}
+                    {props.children.map((child, index) => {
+                        if (currentTab === child.tabName) {
+                            return <View style={{flex:1}} key={index}>{child.component}</View>;
+                        }
+                        return null;
+                    })}
                 </Animated.View>
             </View>
         );

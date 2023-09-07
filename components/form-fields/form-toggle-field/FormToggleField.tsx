@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 21,
     marginRight: 10,
+    flex: 1
   },
   toggleContainer: {
     width: 50,

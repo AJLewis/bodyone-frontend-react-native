@@ -71,19 +71,9 @@ const getFieldContainerStyle = (columns: any, index: number, total: number) => {
     const margin = columns && index < total - 1 ? 10 : 0;
     const totalMargin = margin * (total - 1);
     const widthCorrection = columns ? totalMargin / total : 0;
-    const adjustment = columns
-        ? columns == 2
-            ? 0.3
-            : columns == 3
-            ? 0.6
-            : columns == 4
-            ? 0.9
-            : 0
-        : 0;
+    const adjustment = columns ? columns == 2 ? 0.3 : columns == 3 ? 0.6 : columns == 4 ? 0.9 : 0 : 0;
     const widthPercent = columns ? 100 / columns : 100;
-    const width = columns
-        ? `${widthPercent + adjustment - widthCorrection}%`
-        : '100%';
+    const width = columns ? `${widthPercent + adjustment - widthCorrection}%` : '100%';
 
     return {
         width,
@@ -257,16 +247,16 @@ function DynamicForm({config, objects}: DynamicFormProps) {
                     </View>
                 ))}
             </ScrollView>
-            <View style={styles.submitButton}>
-                <Button
-                    type={ButtonType.Fill}
-                    color={ButtonColor.Primary}
-                    label="Save Changes"
-                    onPress={handleSubmit}
-                    size={ButtonSize.Default}
-                    width={ButtonWidth.Full}
-                />
-            </View>
+            <View style={styles.submitButtonContainer}>
+            <Button
+                type={ButtonType.Fill}
+                color={ButtonColor.Primary}
+                label="Save Changes"
+                onPress={handleSubmit}
+                size={ButtonSize.Default}
+                width={ButtonWidth.Full}
+            />
+        </View>
         </View>
     );
 }
@@ -276,24 +266,21 @@ const styles = StyleSheet.create({
       flex: 1,
   },
   scrollView: {
-    flex: 1,
-    backgroundColor: 'red'
+      flex: 1,
   },
   fieldContainer: {
       marginVertical: 7,
   },
   groupContainer: {
-      marginBottom: 10,
+      marginBottom: 25,
   },
   groupLabel: {
       fontSize: 14,
       marginBottom: 6,
-      color: 'rgba(255,255,255,0.7)',
+      color: 'rgba(255,255,255,0.7)', // You might want to use a theme variable here
   },
-  submitButton: {
-    position: 'absolute',
-    bottom:0,
-    paddingVertical: 20, // Add padding to elevate the button from the bottom
+  submitButtonContainer: {
+    paddingTop:20
   },
 });
 

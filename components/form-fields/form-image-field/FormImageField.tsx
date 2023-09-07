@@ -49,7 +49,6 @@ export function FormImageField({
 const styles = StyleSheet.create({
   root: {
     height: 100,
-    marginBottom: 20,
   },
   label: {
     color: '#FFF',
