@@ -14,7 +14,7 @@ interface HorizontalInfoCardScrollProps {
 export function HorizontalInfoCardScroll({ title, cardsData }: HorizontalInfoCardScrollProps) {
   const { theme } = useUser();
   const { colors, fonts } = theme as CustomTheme;
-  const [maxHeight, setMaxHeight] = useState(190);
+  const [maxHeight, setMaxHeight] = useState(180);
 
   return (
     <View style={styles.container}>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     marginLeft:20,
     fontSize: 16,
     marginBottom: 10,
-    fontWeight: 'bold',
+    opacity: 0.7
   },
 });
 

@@ -10,7 +10,7 @@ interface ButtonTabsProps {
 export const ButtonTabs: React.FC<ButtonTabsProps> = ({ tabs, activeTab }) => {
   return (
     <View style={styles.tabsContainer}>
-      {tabs.map((tab, index) => {
+      {tabs?.map((tab, index) => {
         const isActive = tab.label === activeTab;
         const type = isActive ? ButtonType.Fill : ButtonType.Outline;
         const color = isActive ? ButtonColor.Secondary : ButtonColor.Primary;
@@ -22,7 +22,7 @@ export const ButtonTabs: React.FC<ButtonTabsProps> = ({ tabs, activeTab }) => {
             type={type}
             color={color}
             size={ButtonSize.Small}
-            width={ButtonWidth.Content} // Set width to 'Content'
+            width={ButtonWidth.Content} 
           />
         );
       })}

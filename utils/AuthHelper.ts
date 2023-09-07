@@ -42,8 +42,10 @@ export const checkAuthStatus = async (
 
         try {
           setStatus("Fetching user data");
+          console.log(userId)
           const response = await privateApi.get(`/user/basic/${userId}`);
             user = response.data;
+            console.log(user)
             setUser(user);
         } catch (error) {
             console.error('Failed to fetch user data or theme:', error);

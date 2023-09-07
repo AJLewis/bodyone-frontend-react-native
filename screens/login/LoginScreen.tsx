@@ -31,7 +31,7 @@ import { useMenu } from '../../contexts/UseMenuContext';
 // @ts-ignore
 function LoginScreen() {
     console.log('login screen');
-    const [username, setUsername] = useState('andy_lewis');
+    const [username, setUsername] = useState('freddie_burns');
     const [password, setPassword] = useState('securePassword123');
     const [error, setError] = useState('');
     const navigation = useNavigation();
@@ -79,6 +79,7 @@ function LoginScreen() {
         try {
           setStatus('Logging in, please wait...')
             const data = await login(username, password);
+            console.log('data');
             console.log(data);
             if (data && data.userId) {
               await fetchUserData(data.userId);

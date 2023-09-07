@@ -11,7 +11,7 @@ type NotificationItemProps = {
     viewed: boolean;
     iconLibrary: IconLibraryType;
     iconName: any;
-    onPress: () => void;
+    onPress?: () => void;
 };
 
 export const NotificationItem: React.FC<NotificationItemProps> = ({

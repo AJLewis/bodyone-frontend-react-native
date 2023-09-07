@@ -8,47 +8,42 @@ import {
     ScrollView,
     Text,
 } from 'react-native';
-import {INotification, useUser} from '../../contexts/UserContext';
+import {useUser} from '../../contexts/UserContext';
 import {CustomTheme} from '../../theme/ICustomTheme';
-import IconComponent from '../icon/IconComponent';
-import CloseButton from '../close-button/CloseButton';
+import IconComponent from '../../components/icon/IconComponent';
+import CloseButton from '../../components/close-button/CloseButton';
 import {ButtonTabs} from '../../templates/button-tabs/ButtonTabs';
 import {NotificationItem} from '../../components/notification-item/NotificationItem';
 import {configApi, privateApi} from '../../services/api/ApiConfig';
-import NotificationsList, { NotificationListItem } from '../../components/notification-list/NotificationList';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-type SlideInMessagesProps = {
-    onClose: () => void;
-    activeTab: string; // This will be either 'Messages' or 'Notifications'
+type TabContent = {
+    component: React.ReactNode;
+    tabName: string;
 };
 
-const convertToNotification = (notif: INotification): NotificationListItem => {
-    const date = typeof notif.date === 'string' ? new Date(notif.date) : notif.date;
-    return {
-        subject: notif.content,
-        content: date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-        }),
-        viewed: notif.viewed
-    };
-}
+type SlideMenuWithButtonNavigationProps = {
+    onClose: () => void;
+    activeTab: string;
+    children: TabContent[];
+};
 
-export const SlideInMessages = React.forwardRef(
-    (props: SlideInMessagesProps, ref: React.Ref<any>) => {
+export const SlideMenuWithButtonNavigation = React.forwardRef(
+    (props: SlideMenuWithButtonNavigationProps, ref: React.Ref<any>) => {
         console.log('Rendering Slide In Messages');
         const slideAnim = useRef(new Animated.Value(screenWidth)).current; // Start from the right
         const overlayOpacity = useRef(new Animated.Value(0)).current;
         const {theme, notifications, messages} = useUser();
-        const {colors} = theme as CustomTheme;
         const userFromContext = useUser().user;
-        const convertedNotifications: NotificationListItem[] = notifications.map(convertToNotification);
+        const {colors} = theme as CustomTheme;
+
+        const tabs = props.children.map((child, index) => ({
+            label: child.tabName,
+            onPress: () => setCurrentTab(child.tabName),
+        }));
+
         const messagesCount = messages?.filter(
             (x) => x.viewed === false
         )?.length;
@@ -63,10 +58,10 @@ export const SlideInMessages = React.forwardRef(
         const handleNotificationPress = () => {};
 
         React.useImperativeHandle(ref, () => ({
-            closeMessages,
+            closeMenu,
         }));
 
-        const openMessages = () => {
+        const openMenu = () => {
             Animated.parallel([
                 Animated.timing(slideAnim, {
                     toValue: 0,
@@ -81,7 +76,7 @@ export const SlideInMessages = React.forwardRef(
             ]).start();
         };
 
-        const closeMessages = () => {
+        const closeMenu = () => {
             Animated.parallel([
                 Animated.timing(slideAnim, {
                     toValue: screenWidth,
@@ -99,14 +94,14 @@ export const SlideInMessages = React.forwardRef(
         };
 
         useEffect(() => {
-            openMessages();
+          openMenu();
         }, []);
 
         return (
             <View style={styles.container}>
                 <TouchableOpacity
                     style={[styles.overlay, {opacity: overlayOpacity}]}
-                    onPress={closeMessages}
+                    onPress={closeMenu}
                 />
                 <Animated.View
                     style={[
@@ -125,33 +120,19 @@ export const SlideInMessages = React.forwardRef(
                     >
                         <ButtonTabs
                             activeTab={currentTab}
-                            tabs={[
-                                {
-                                    count: messagesCount,
-                                    label: 'Messages',
-                                    onPress: () => setCurrentTab('Messages'),
-                                },
-                                {
-                                    count: notificationsCount,
-                                    label: 'Notifications',
-                                    onPress: () =>
-                                        setCurrentTab('Notifications'),
-                                },
-                            ]}
+                            tabs={tabs}
                         />
-                    {currentTab === 'Messages' ? (
-                        <NotificationsList
-                            notifications={messages}
-                            colors={colors}
-                            onPress={handleMessagePress}
-                        />
-                    ) : (
-                        <NotificationsList 
-                        notifications={convertedNotifications} 
-                        colors={colors} 
-                        onPress={handleNotificationPress} 
-                    />
-                    )}
+
+<CloseButton onPress={closeMenu} />
+                    </View>
+                        {props.children.map((child, index) => {
+                            if (currentTab === child.tabName) {
+                                return (
+                                    <View key={index}>{child.component}</View>
+                                );
+                            }
+                            return null;
+                        })}
                 </Animated.View>
             </View>
         );
@@ -201,4 +182,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SlideInMessages;
+export default SlideMenuWithButtonNavigation;

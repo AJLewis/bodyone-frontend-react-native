@@ -80,6 +80,7 @@ const Home: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
+        paddingTop: 30,
         paddingBottom: 30,
         flex: 1,
     },
