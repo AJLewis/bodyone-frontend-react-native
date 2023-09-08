@@ -65,6 +65,7 @@ function LoginScreen() {
 
     const fetchUserData = async (userId: string) => {
         try {
+            console.log(userId)
             const response = await privateApi.get(`/user/${userId}`);
             if (response.data) {
                 setUser(response.data);

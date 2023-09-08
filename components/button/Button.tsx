@@ -48,15 +48,14 @@ export function Button({
 }: ButtonProps) {
     const {theme} = useUser();
     const {colors} = theme as CustomTheme;
-    console.log('count', count)
     const buttonSizeStyles = {
         [ButtonSize.Large]: {
             container: {height: 60, paddingHorizontal: 20},
             label: {fontSize: 24},
         },
         [ButtonSize.Default]: {
-            container: {height: 56, paddingHorizontal: 20},
-            label: {fontSize: 20},
+            container: {height: 48, paddingHorizontal: 20},
+            label: {fontSize: 18},
         },
         [ButtonSize.Small]: {
             container: {height: 40, paddingHorizontal: 20},

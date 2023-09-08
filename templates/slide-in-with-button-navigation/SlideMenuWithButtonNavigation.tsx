@@ -32,30 +32,23 @@ type SlideMenuWithButtonNavigationProps = {
 
 export const SlideMenuWithButtonNavigation = React.forwardRef(
     (props: SlideMenuWithButtonNavigationProps, ref: React.Ref<any>) => {
-        console.log('Rendering Slide In Messages');
         const slideAnim = useRef(new Animated.Value(screenWidth)).current; // Start from the right
         const overlayOpacity = useRef(new Animated.Value(0)).current;
-        const {theme, notifications, messages} = useUser();
-        const userFromContext = useUser().user;
+        const {theme} = useUser();
         const {colors} = theme as CustomTheme;
-
         const tabs = props.children.map((child, index) => ({
             label: child.tabName,
-            onPress: () => setCurrentTab(child.tabName),
+            onPress: () => handleTabPress(child.tabName),
         }));
 
-        const messagesCount = messages?.filter(
-            (x) => x.viewed === false
-        )?.length;
-        const notificationsCount = notifications?.filter(
-            (x) => x.viewed === false
-        )?.length;
-
         const [currentTab, setCurrentTab] = useState(props.activeTab);
+        const [isTabPressed, setIsTabPressed] = useState(false);
 
-        const handleMessagePress = () => {};
+        const initialActiveTabIndex = props.children.findIndex(
+            (child) => child.tabName === props.activeTab
+          );
 
-        const handleNotificationPress = () => {};
+        const [visibleTabs, setVisibleTabs] = useState<number[]>([initialActiveTabIndex]);
 
         React.useImperativeHandle(ref, () => ({
             closeMenu,
@@ -97,6 +90,66 @@ export const SlideMenuWithButtonNavigation = React.forwardRef(
             openMenu();
         }, []);
 
+        const scrollViewRef = useRef<ScrollView>(null);
+
+        const handleTabPress = (tabName: string) => {
+            const index = props.children.findIndex(
+                (child) => child.tabName === tabName
+            );
+            const currentIndex = props.children.findIndex(
+                (child) => child.tabName === currentTab
+            );
+        
+            setVisibleTabs([index, currentIndex]);
+
+            setCurrentTab(tabName); // Set the current tab here
+        setIsTabPressed(true);
+            // Determine the direction of the swipe (left or right)
+            const direction = index > currentIndex ? -1 : 1;
+        
+            // Instantly move to a position just off-screen in the determined direction
+            scrollViewRef.current?.scrollTo({
+                x: index * screenWidth + direction * screenWidth,
+                animated: false,
+            });
+        
+            // Use a timeout to then animate the scroll into the correct view
+            setTimeout(() => {
+                scrollViewRef.current?.scrollTo({
+                    x: index * screenWidth,
+                    animated: true,
+                });
+            }, 0);
+        };
+        
+        const handleScroll = (event: any) => {        
+            if (isTabPressed) return;
+
+            const newTabIndex = Math.round(
+                event.nativeEvent.contentOffset.x / screenWidth
+            );
+        
+            const index = props.children.findIndex(
+                (child) => child.tabName === props.children[newTabIndex].tabName
+            );
+            const currentIndex = props.children.findIndex(
+                (child) => child.tabName === currentTab
+            );
+        
+            setVisibleTabs(Array.from({ length: tabs.length }, (_, i) => i)); // Set all tabs to be visible on swipe
+        
+            if (!visibleTabs.includes(newTabIndex)) {
+                return;
+            }
+        
+            setCurrentTab(props.children[newTabIndex].tabName);
+        };
+
+        const handleScrollEnd = () => {
+            setIsTabPressed(false);
+            setVisibleTabs(Array.from({ length: tabs.length }, (_, i) => i));
+        };
+
         return (
             <View style={styles.container}>
                 <TouchableOpacity
@@ -125,12 +178,25 @@ export const SlideMenuWithButtonNavigation = React.forwardRef(
 
                         <CloseButton onPress={closeMenu} />
                     </View>
-                    {props.children.map((child, index) => {
-                        if (currentTab === child.tabName) {
-                            return <View style={{flex:1}} key={index}>{child.component}</View>;
-                        }
-                        return null;
-                    })}
+                    <ScrollView
+                        ref={scrollViewRef}
+                        horizontal
+                        pagingEnabled
+                        showsHorizontalScrollIndicator={false}
+                        onScroll={handleScroll}
+                        onMomentumScrollEnd={handleScrollEnd} 
+                    >
+                        {props.children.map((child, index) => (
+                            <View
+                                style={{flex: 1, width: screenWidth}}
+                                key={index}
+                            >
+                                {visibleTabs.includes(index)
+                                    ? child.component
+                                    : null}
+                            </View>
+                        ))}
+                    </ScrollView>
                 </Animated.View>
             </View>
         );

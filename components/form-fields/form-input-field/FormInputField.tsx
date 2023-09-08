@@ -38,7 +38,7 @@ export function FormInputField({
           placeholder={placeholder}
           placeholderTextColor={colors.text}
           onChangeText={onChangeText}
-          value={value}
+          value={value?.toString()}
           onFocus={onFocus}
           onBlur={onBlur}
           secureTextEntry={secureTextEntry}

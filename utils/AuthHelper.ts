@@ -54,6 +54,7 @@ export const checkAuthStatus = async (
 
 
         setStatus("Setting up...");
+
         const promises = [
             privateApi.get(`/user/basic/${userId}`).then(response => {
                 setUser(response.data);
@@ -77,7 +78,7 @@ export const checkAuthStatus = async (
 
         try {
             await Promise.all(promises);
-            
+            console.log('promises')
             goToTabs();
         } catch (error) {
             console.error('An error occurred:', error);
