@@ -10,6 +10,7 @@ type IconWithCountProps = {
   circleColor: string;
   textColor: string;
   count: number;
+  size?: number;
 };
 
 const IconWithCount: React.FC<IconWithCountProps> = ({
@@ -19,13 +20,14 @@ const IconWithCount: React.FC<IconWithCountProps> = ({
   circleColor,
   textColor,
   count,
+  size
 }) => {
   return (
     <View style={styles.container}>
       <IconComponent
           library={iconLibrary}
           name={iconName}
-          size={24}
+          size={size ? size : 24}
           color={iconColor}
           style={styles.icon}
                     />

@@ -65,7 +65,6 @@ function LoginScreen() {
 
     const fetchUserData = async (userId: string) => {
         try {
-            console.log(userId)
             const response = await privateApi.get(`/user/${userId}`);
             if (response.data) {
                 setUser(response.data);
@@ -80,8 +79,6 @@ function LoginScreen() {
         try {
           setStatus('Logging in, please wait...')
             const data = await login(username, password);
-            console.log('data');
-            console.log(data);
             if (data && data.userId) {
               await fetchUserData(data.userId);
               await checkAuthStatus(setStatus, setUser, setTheme, setMessages, setNotifications, setSlideInNavigation, goToAuth, goToTabs);
@@ -175,6 +172,7 @@ function LoginScreen() {
                         </View>
                         <View style={styles.signUpBtn}>
                             <TouchableOpacity
+                            // @ts-ignore
                                 onPress={() => navigation.navigate('register')}
                             >
                                 <Text

@@ -7,6 +7,8 @@ import {
     Dimensions,
     TouchableOpacity,
     ScrollView,
+    Platform,
+    StatusBar,
 } from 'react-native';
 import {Avatar} from '../../assets/images/avatar.png';
 import MenuListItem from '../../components/menu-list-item/MenuListItem';
@@ -18,6 +20,7 @@ import {CommonActions} from '@react-navigation/native';
 import {logout} from '../../services/api/AuthService';
 import {useMenu} from '../../contexts/UseMenuContext';
 import {Button, ButtonSize, ButtonType} from '../../components/button/Button';
+import { useAppContext } from '../../contexts/UseAppContext';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -42,7 +45,9 @@ const NavigationMenuScreen = React.forwardRef<NavigationMenuScreenRef, Navigatio
         const navigation = useNavigation();
         const {slideInNavigation} = useMenu() as any;
         const {menuItems} = slideInNavigation;
-
+        const { headerHeight } = useAppContext();
+        const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight ? StatusBar.currentHeight : 20 : 0;
+        const totalHeaderHeight = statusBarHeight && headerHeight ? statusBarHeight + headerHeight : 0;
         const openMenu = () => {
             Animated.parallel([
                 Animated.timing(slideAnim, {
@@ -59,7 +64,6 @@ const NavigationMenuScreen = React.forwardRef<NavigationMenuScreenRef, Navigatio
         };
 
         const animateMenuOut = () => {
-            console.log('animating menu out');
             Animated.parallel([
                 Animated.timing(slideAnim, {
                     toValue: -screenWidth * 0.75,
@@ -99,7 +103,7 @@ const NavigationMenuScreen = React.forwardRef<NavigationMenuScreenRef, Navigatio
         };
 
         return (
-            <View style={styles.container}>
+            <View style={{...styles.container, top: totalHeaderHeight}}>
                 <TouchableOpacity
                     style={[styles.overlay, {opacity: overlayOpacity}]}
                     onPress={animateMenuOut}
@@ -160,7 +164,6 @@ const styles = StyleSheet.create({
         flex: 1,
         position: 'absolute',
         left: 0,
-        top: 102,
         bottom: 0,
         right: 0,
         backgroundColor: 'rgba(0,0,0,0.3)', // semi-transparent background

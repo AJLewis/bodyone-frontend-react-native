@@ -27,64 +27,70 @@ export const checkAuthStatus = async (
     goToTabs: () => void
 ) => {
     const token = await AsyncStorage.getItem('jwt_token');
-    const userId = await AsyncStorage.getItem('userId');
-    const forceLogin = false;
+  const userId = await AsyncStorage.getItem('userId');
+  const forceLogin = false;
 
-    if (token && userId) {
-        if (isTokenExpired(token) || forceLogin) {
-            console.log('TOKEN EXPIRED !!!!!!!!!!!!!!');
-            setStatus("Token expired");
-            goToAuth();
-            return;
-        }
-
-        let user;
-
-        try {
-          setStatus("Fetching user data");
-          console.log(userId)
-          const response = await privateApi.get(`/user/basic/${userId}`);
-            user = response.data;
-            console.log(user)
-            setUser(user);
-        } catch (error) {
-            console.error('Failed to fetch user data or theme:', error);
-            goToAuth();
-        }
-
-
-        setStatus("Setting up...");
-
-        const promises = [
-            privateApi.get(`/user/basic/${userId}`).then(response => {
-                setUser(response.data);
-            }),
-            configApi.get(`/theme/${user.theme}`).then(response => {
-                setTheme(response.data);
-            }),
-            privateApi.post(`/message/user/${userId}`, {
-                type: 'received', 
-                limit: 20
-            }).then(response => {
-                setMessages(response.data);
-            }),
-            privateApi.get(`/notification/user/${userId}`).then(response => {
-                setNotifications(response.data);
-            }),
-            configApi.get(`/navigation-menu/slide-in-main-menu`).then(response => {
-                setSlideInNavigation(response.data);
-            })
-        ];
-
-        try {
-            await Promise.all(promises);
-            console.log('promises')
-            goToTabs();
-        } catch (error) {
-            console.error('An error occurred:', error);
-            goToAuth();
-        }
-    } else {
-        goToAuth();
+  if (token && userId) {
+    if (isTokenExpired(token) || forceLogin) {
+      console.log('TOKEN EXPIRED !!!!!!!!!!!!!!');
+      setStatus("Token expired");
+      goToAuth();
+      return;
     }
+
+    let user;
+
+    try {
+      setStatus("Fetching user data");
+      console.log(userId)
+      const response = await privateApi.get(`/user/basic/${userId}`);
+      user = response.data;
+      console.log(user)
+      setUser(user);
+    } catch (error) {
+      console.error('Failed to fetch user data:', error);
+      goToAuth();
+      return;
+    }
+
+    setStatus("Setting up...");
+
+    const promises = [
+      configApi.get(`/theme/${user.theme}`).then(response => {
+        setTheme(response.data);
+      }).catch(error => {
+        console.error('Error fetching theme:', error);
+      }),
+      privateApi.post(`/message/user/${userId}`, {
+        type: 'received', 
+        limit: 20
+      }).then(response => {
+        setMessages(response.data);
+      }).catch(error => {
+        console.error('Error fetching message:', error);
+      }),
+      privateApi.get(`/notification/user/${userId}`).then(response => {
+        setNotifications(response.data);
+      }).catch(error => {
+        console.error('Error fetching notification:', error);
+      }),
+      configApi.get(`/navigation-menu/slide-in-main-menu`).then(response => {
+        setSlideInNavigation(response.data);
+      }).catch(error => {
+        console.error('Error fetching navigation-menu:', error);
+      }),
+    ];
+
+    try {
+      await Promise.all(promises);
+      console.log('promises')
+      goToTabs();
+    } catch (error) {
+      console.error('An error occurred:', error);
+      goToAuth();
+    }
+  } else {
+    goToAuth();
+  }
 };
+

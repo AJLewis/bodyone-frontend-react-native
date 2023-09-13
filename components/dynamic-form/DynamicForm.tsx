@@ -2,12 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {
     View,
     Text,
-    TouchableOpacity,
-    TextInput,
-    Animated,
-    Image,
     StyleSheet,
-    ScrollView,
     SafeAreaView,
     ActivityIndicator,
     SectionList,
@@ -28,8 +23,9 @@ import {
     ButtonType,
     ButtonWidth,
 } from '../../components/button/Button';
-import {privateApi} from '../../services/api/ApiConfig';
+import {getApiInstance, privateApi} from '../../services/api/ApiConfig';
 import {useUser} from '../../contexts/UserContext';
+import {CustomTheme} from '../../theme/ICustomTheme';
 
 interface DatabaseTarget {
     database: string;
@@ -41,7 +37,7 @@ interface FieldDetails {
     type: string;
     label?: string;
     placeholder?: string;
-    options?: string[];
+    options?: {label: string; value: string}[];
     inputType?: 'text' | 'number';
     secureTextEntry?: boolean;
     isChecked?: boolean;
@@ -49,6 +45,7 @@ interface FieldDetails {
     columns?: number;
     fields?: FieldConfig[];
     groupLabel?: string;
+    optionsApiConfig?: ApiMethodConfig;
 }
 
 interface FieldConfig {
@@ -60,14 +57,15 @@ interface FieldConfig {
 type FieldItem = {
     name: string;
     details: any; // Replace 'any' with the appropriate type for your field details
-  };
-  
-  type Section = {
+};
+
+type Section = {
     title: string;
     data: FieldItem[];
-  };
+};
 
 export interface ApiConfig {
+    baseApi: string;
     fetch: {
         endpoint: string;
         method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -82,6 +80,7 @@ export interface ApiConfig {
 
 export interface ObjectConfig {
     name: string;
+    database: string;
     apiConfig: ApiConfig;
 }
 
@@ -107,11 +106,14 @@ interface DynamicFormProps {
 }
 
 interface ApiMethodConfig {
+    baseApi: string;
     endpoint: string;
     method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
     params?: {
         [key: string]: string;
     };
+    labelProperty: string;
+    valueProperty: string;
 }
 
 type FormState = {
@@ -155,6 +157,35 @@ function getNestedObject(nestedObj: any, pathArr: string[]) {
     );
 }
 
+const fetchFieldOptions = async (apiConfig: ApiMethodConfig) => {
+    try {
+        const apiInstance = getApiInstance(apiConfig.baseApi);
+        if (!apiInstance) {
+            throw new Error(`Invalid baseApi: ${apiConfig.baseApi}`);
+        }
+
+        let response;
+        if (apiConfig.method === 'GET') {
+            response = await apiInstance.get(apiConfig.endpoint, {
+                params: apiConfig.params,
+            });
+        }
+
+        const getNestedProperty = (obj: any, path: string) => {
+            return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+        };
+
+        const options = response?.data.map((item: any) => ({
+            label: getNestedProperty(item, apiConfig.labelProperty),
+            value: getNestedProperty(item, apiConfig.valueProperty),
+        }));
+        return options;
+    } catch (error) {
+        console.error('Error fetching field options', error);
+        return [];
+    }
+};
+
 function DynamicForm({
     config,
     objects,
@@ -164,6 +195,10 @@ function DynamicForm({
     const [formState, setFormState] = useState<FormState>({});
     const {user} = useUser();
     const [isLoading, setIsLoading] = useState(true);
+    const [fieldOptions, setFieldOptions] = useState<{[key: string]: any[]}>(
+        Object.fromEntries(config.fields.map((field) => [field.name, []]))
+    );
+    const theme = useTheme() as CustomTheme;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -181,7 +216,6 @@ function DynamicForm({
                     // Skip if data for this object is already obtained from objects prop
                     if (objects?.some((o) => o.name === obj.name)) continue;
 
-                    console.log('Fetched Data');
                     let data: any;
 
                     // Fetch data from the API
@@ -256,33 +290,28 @@ function DynamicForm({
                         set(payload, path, formState[field.name]);
                     }
                 });
-
+                
+                const apiInstance = getApiInstance(obj.apiConfig.baseApi);
                 // Construct the endpoint URL with userId if available
                 let updateEndpoint = obj.apiConfig.update.endpoint;
 
                 if (obj.apiConfig.update.params?.includeUserId) {
-                    console.log('obj.apiConfig.update.params?.includeUserId');
-                    console.log(updateEndpoint);
                     updateEndpoint = `${updateEndpoint}${user?._id}`;
                 }
-                console.log(updateEndpoint);
-
                 // Determine the HTTP method to use and send the request
                 const method = obj.apiConfig.update.method;
                 if (method === 'PATCH') {
-                    await privateApi.patch(updateEndpoint, payload);
+                    await apiInstance.patch(updateEndpoint, payload);
                 } else if (method === 'PUT') {
-                    await privateApi.put(updateEndpoint, payload);
+                    await apiInstance.put(updateEndpoint, payload);
                 } else if (method === 'POST') {
-                    await privateApi.post(updateEndpoint, payload);
+                    await apiInstance.post(updateEndpoint, payload);
                 }
 
                 successfulResponses.push({name: obj.name, data: payload});
             }
 
             alert('Data updated successfully');
-            console.log('successfulResponses');
-            console.log(successfulResponses);
             onSubmitSuccess?.(successfulResponses);
         } catch (error) {
             console.error('Error updating data', error);
@@ -293,6 +322,23 @@ function DynamicForm({
 
     const renderField = (fieldDetails: FieldDetails, fieldName: string) => {
         const fieldValue = formState[fieldName];
+        const options = fieldOptions[fieldName];
+
+        useEffect(() => {
+            if (fieldDetails.optionsApiConfig) {
+                fetchFieldOptions(fieldDetails.optionsApiConfig).then(
+                    (options) => {
+                        setFieldOptions((prevOptions) => ({
+                            ...prevOptions,
+                            [fieldName]: options, // Assuming options is an array of objects with label and value properties
+                        }));
+                    }
+                );
+            } else if (fieldDetails.options) {
+                setFieldOptions({[fieldName]: fieldDetails.options});
+            }
+        }, [fieldDetails, fieldName]);
+
         switch (fieldDetails.type) {
             case 'input':
                 return (
@@ -310,6 +356,7 @@ function DynamicForm({
                     <FormCheckboxField
                         key={fieldName}
                         {...fieldDetails}
+                        isChecked={fieldValue as boolean}
                         onToggle={(value) =>
                             handleFieldChange(fieldName, value)
                         }
@@ -319,6 +366,7 @@ function DynamicForm({
                 return (
                     <FormDropdownField
                         key={fieldName}
+                        options={options}
                         {...fieldDetails}
                         onOptionSelect={(value) =>
                             handleFieldChange(fieldName, value)
@@ -348,11 +396,15 @@ function DynamicForm({
             case 'radio':
                 return (
                     <FormRadioField
-                        key={fieldName}
-                        {...fieldDetails}
-                        onSelect={(value) =>
+                        label="Subscription Type"
+                        options={fieldDetails.options as {
+                            label: string;
+                            value: string;
+                        }[]}
+                        initialSelected={null}
+                        onSelect={(value) => {
                             handleFieldChange(fieldName, value)
-                        }
+                        }}
                     />
                 );
             case 'toggle':
@@ -382,69 +434,112 @@ function DynamicForm({
         {}
     );
 
-    const sections: Section[] = Object.entries(groupedFields).map(([groupLabel, fields]) => {
-        return {
-          title: groupLabel,
-          data: fields as FieldItem[], // Here we are casting fields to FieldItem[]
-        };
-      });
+    const sections: Section[] = Object.entries(groupedFields).map(
+        ([groupLabel, fields]) => {
+            return {
+                title: groupLabel,
+                data: fields as FieldItem[], // Here we are casting fields to FieldItem[]
+            };
+        }
+    );
 
-      return (
-        <View style={styles.container}>
-          {isLoading ? (
-            <ActivityIndicator size="large" color="#0000ff" /> // Show spinner while loading
-          ) : (
-            <SectionList
-              style={styles.sectionList}
-              sections={sections}
-              stickySectionHeadersEnabled={true}
-              keyExtractor={(item, index) => item.name + index}
-              renderItem={({ item, index, section }) => {
-                const fieldStyle = getFieldContainerStyle(item.details.columns, index, section.data.length);
-                if (item.details.type === 'group') {
-                  return (
-                    <View style={styles.row} key={item.name}>
-                      {item.details.fields?.map((subField: any, subIndex: any, subArr: aany) => (
-                        <View
-                          style={getFieldContainerStyle(subField.details.columns, subIndex, subArr.length)}
-                          key={subField.name}
-                        >
-                          {renderField(subField.details, subField.name)}
-                        </View>
-                      ))}
-                    </View>
-                  );
-                }
-                return (
-                  <View style={fieldStyle} key={item.name}>
-                    {renderField(item.details, item.name)}
-                  </View>
-                );
-              }}
-              renderSectionHeader={({ section: { title } }) => {
-                if (!title) {
-                  return null; // Return null instead of false when there is no title
-                }
-                
-                return (
-                    <Text style={styles.sectionHeader}>{title}</Text>
-                );
-              }}
-              renderSectionFooter={() => <View style={styles.sectionFooter} />}
-            />
-          )}
-          <View style={styles.submitButtonContainer}>
-            <Button
-              type={ButtonType.Fill}
-              color={ButtonColor.Primary}
-              label="Save Changes"
-              onPress={handleSubmit}
-              size={ButtonSize.Default}
-              width={ButtonWidth.Full}
-            />
-          </View>
-        </View>
-      );
+    return (
+        <SafeAreaView style={styles.container}>
+            {isLoading ? (
+                <ActivityIndicator
+                    size="large"
+                    color={theme.colors.primary} // Use a color from your theme
+                />
+            ) : (
+                <SectionList
+                    style={styles.sectionList}
+                    sections={sections}
+                    stickySectionHeadersEnabled={true}
+                    keyExtractor={(item, index) => item.name + index}
+                    renderItem={({item, index, section}) => {
+                        const fieldStyle = getFieldContainerStyle(
+                            item.details.columns,
+                            index,
+                            section.data.length
+                        );
+                        if (item.details.type === 'group') {
+                            return (
+                                <View
+                                    style={styles.row}
+                                    key={item.name}
+                                >
+                                    {item.details.fields?.map(
+                                        (
+                                            subField: any,
+                                            subIndex: any,
+                                            subArr: any
+                                        ) => (
+                                            <View
+                                            // @ts-ignore
+                                                style={getFieldContainerStyle(
+                                                    subField.details.columns,
+                                                    subIndex,
+                                                    subArr.length
+                                                )}
+                                                key={subField.name}
+                                            >
+                                                {renderField(
+                                                    subField.details,
+                                                    subField.name
+                                                )}
+                                            </View>
+                                        )
+                                    )}
+                                </View>
+                            );
+                        }
+                        return (
+                            <View
+                                // @ts-ignore
+                                style={fieldStyle}
+                                key={item.name}
+                            >
+                                {renderField(item.details, item.name)}
+                            </View>
+                        );
+                    }}
+                    renderSectionHeader={({section: {title}}) => {
+                        if (!title) {
+                            return null; // Return null instead of false when there is no title
+                        }
+
+                        return (
+                            <Text
+                                style={[
+                                    styles.sectionHeader,
+                                    {
+                                        color: theme.colors.lightFontFade,
+                                        backgroundColor:
+                                            theme.colors.background,
+                                    },
+                                ]}
+                            >
+                                {title}
+                            </Text>
+                        );
+                    }}
+                    renderSectionFooter={() => (
+                        <View style={styles.sectionFooter} />
+                    )}
+                />
+            )}
+            <View style={styles.submitButtonContainer}>
+                <Button
+                    type={ButtonType.Fill}
+                    color={ButtonColor.Primary}
+                    label="Save Changes"
+                    onPress={handleSubmit}
+                    size={ButtonSize.Default}
+                    width={ButtonWidth.Full}
+                />
+            </View>
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -452,31 +547,27 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scrollView: {
-        flex: 1,
     },
     fieldContainer: {
         marginBottom: 10,
     },
     sectionList: {
-        flex: 1,
-      },
-      sectionHeader: {
-        backgroundColor: '#001a2b',
-        paddingBottom:12,
-        color: 'rgba(255,255,255,0.7)',
-        fontSize: 14, 
-      },
-      row: {
+    },
+    sectionHeader: {
+        paddingBottom: 12,
+        fontSize: 14,
+    },
+    row: {
         flexDirection: 'row',
-        gap:5,
-      },
+        gap: 5,
+    },
     stickyLabel: {
         position: 'sticky',
-        top: 0
+        top: 0,
     },
     sectionFooter: {
-        height: 25, 
-      },
+        height: 25,
+    },
     groupLabel: {
         fontSize: 14,
         marginBottom: 6,
@@ -484,6 +575,7 @@ const styles = StyleSheet.create({
     },
     submitButtonContainer: {
         paddingTop: 20,
+        paddingBottom: 30
     },
 });
 

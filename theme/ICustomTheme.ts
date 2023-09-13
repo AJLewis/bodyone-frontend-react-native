@@ -23,6 +23,7 @@ type AdditionalColors = {
   notificationIconBackgroundViewed: string;
   notificationIconBackgroundUnviewed: string;
   logoutBackground: string
+  fieldBackground: string
 }
 
 type AdditionalFonts = {

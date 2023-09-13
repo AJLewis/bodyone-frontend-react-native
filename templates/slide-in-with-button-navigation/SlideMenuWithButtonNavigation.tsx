@@ -7,6 +7,8 @@ import {
     TouchableOpacity,
     ScrollView,
     Text,
+    Platform,
+    StatusBar,
 } from 'react-native';
 import {useUser} from '../../contexts/UserContext';
 import {CustomTheme} from '../../theme/ICustomTheme';
@@ -15,6 +17,7 @@ import CloseButton from '../../components/close-button/CloseButton';
 import {ButtonTabs} from '../../templates/button-tabs/ButtonTabs';
 import {NotificationItem} from '../../components/notification-item/NotificationItem';
 import {configApi, privateApi} from '../../services/api/ApiConfig';
+import { useAppContext } from '../../contexts/UseAppContext';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -40,6 +43,7 @@ export const SlideMenuWithButtonNavigation = React.forwardRef(
             label: child.tabName,
             onPress: () => handleTabPress(child.tabName),
         }));
+        const { headerHeight } = useAppContext();
 
         const [currentTab, setCurrentTab] = useState(props.activeTab);
         const [isTabPressed, setIsTabPressed] = useState(false);
@@ -51,6 +55,9 @@ export const SlideMenuWithButtonNavigation = React.forwardRef(
         const [visibleTabs, setVisibleTabs] = useState<number[]>([
             initialActiveTabIndex,
         ]);
+
+        const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight : 0;
+        const totalHeaderHeight = statusBarHeight && headerHeight ? statusBarHeight + headerHeight : 0;
 
         React.useImperativeHandle(ref, () => ({
             closeMenu,
@@ -156,7 +163,7 @@ export const SlideMenuWithButtonNavigation = React.forwardRef(
         };
 
         return (
-            <View style={styles.container}>
+            <View style={{...styles.container, top: totalHeaderHeight}}>
                 <TouchableOpacity
                     style={[styles.overlay, {opacity: overlayOpacity}]}
                     onPress={closeMenu}
@@ -213,7 +220,6 @@ const styles = StyleSheet.create({
         flex: 1,
         position: 'absolute',
         left: 0,
-        top: 102,
         bottom: 0,
         right: 0,
         zIndex: 9999,

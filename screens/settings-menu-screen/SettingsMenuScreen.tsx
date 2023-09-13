@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import SlideMenuWithButtonNavigation from '../../templates/slide-in-with-button-navigation/SlideMenuWithButtonNavigation';
 import {useMenu} from '../../contexts/UseMenuContext';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
 import DynamicForm, {
     FormConfig, SuccessfulFormDataResponse,
 } from '../../components/dynamic-form/DynamicForm';
@@ -47,12 +47,11 @@ const SettingsMenuScreen = () => {
         },
         {
             component: (
-                <View
+                <SafeAreaView
                     style={{
                         flex: 1,
                         paddingHorizontal: 20,
                         paddingTop: 15,
-                        paddingBottom: 30,
                     }}
                 >
                     {/* @ts-ignore */}
@@ -70,9 +69,9 @@ const SettingsMenuScreen = () => {
                         config={personalSettingsMenu}
                         objects={[{ name: 'userProfile', data: user }]}
                         onSubmitSuccess={updateUser}
-                        />
+                        /> 
                     )}
-                </View>
+                </SafeAreaView>
             ),
             tabName: 'Personal',
         },

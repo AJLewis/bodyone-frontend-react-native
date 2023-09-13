@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { CustomTheme } from '../../../theme/ICustomTheme';
+import { useUser } from '../../../contexts/UserContext';
 
 interface FormCheckboxFieldProps {
   label?: string;
@@ -9,24 +10,30 @@ interface FormCheckboxFieldProps {
   onToggle?: (checked: boolean) => void;
 }
 
-export function FormCheckboxField({
+function FormCheckboxField({
   label = "Option",
   isChecked = false,
   onToggle,
 }: FormCheckboxFieldProps) {
-  const { colors } = useTheme() as CustomTheme;
+
+  const { theme } = useUser();
+  const { colors } = theme as CustomTheme;
 
   const handleToggle = () => {
+    console.log('isChecked', isChecked);
     onToggle && onToggle(!isChecked);
   };
 
   return (
     <View style={styles.root}>
-      <Text style={styles.label}>{label}</Text>
       <TouchableOpacity onPress={handleToggle} style={styles.container}>
-        <View style={[styles.checkbox, isChecked && styles.checkboxChecked]}>
-          
-        </View>
+      
+      <View style={[
+        styles.checkbox, 
+        { borderColor: colors.lightFontFade }, 
+        isChecked && { backgroundColor: colors.btnSecondary }
+      ]} />
+      <Text style={[styles.label, { color: colors.text }]}>{label}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -34,32 +41,29 @@ export function FormCheckboxField({
 
 const styles = StyleSheet.create({
   root: {
+    paddingVertical:4,
     flexDirection: 'row',
     alignItems: 'center',
-    height: 28,
+    height: 32,
   },
   container: {
+
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   checkbox: {
     width: 25,
     height: 25,
     borderWidth: 1,
-    borderColor: '#FFF',
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  checkboxChecked: {
-    backgroundColor: '#96095E',
-  },
   label: {
-    color: '#FFF',
     fontSize: 12,
     lineHeight: 21,
-    marginRight: 10,
+    marginLeft: 10,
   },
 });
 

@@ -33,12 +33,14 @@ interface MenuProviderProps {
     children: ReactNode;
 }
 
-const formConfigObject: FormConfig = {
+const formConfigForTesting: FormConfig = {
     name: 'UserProfileForm',
     objects: [
         {
             name: 'userProfile',
+            database: 'userDatabase',
             apiConfig: {
+                baseApi: 'privateApi',
                 fetch: {
                     endpoint: '/user/basic/',
                     method: 'GET',
@@ -57,6 +59,172 @@ const formConfigObject: FormConfig = {
         },
     ],
     fields: [
+        {
+            name: 'language',
+            databaseTarget: {
+                database: 'userDatabase',
+                object: 'userProfile',
+                property: 'language',
+            },
+            details: {
+                groupLabel: 'Test Header',
+                label: 'Language',
+                placeholder: 'Select a language',
+                type: 'dropdown',
+                options: [
+                    {
+                        label: 'English',
+                        value: 'english',
+                    },
+                    {
+                        label: 'Spanish',
+                        value: 'spanish',
+                    },
+                    {
+                        label: 'German',
+                        value: 'german',
+                    },
+                ],
+            },
+        },
+        {
+            name: 'age',
+            databaseTarget: {
+                database: 'userDatabase',
+                object: 'userProfile',
+                property: 'metrics.age',
+            },
+            details: {
+                groupLabel: 'Test Header',
+                label: 'Age',
+                placeholder: 'Your age',
+                type: 'input',
+                inputType: 'number',
+            },
+        },
+        {
+            name: 'spouse',
+            databaseTarget: {
+                database: 'userDatabase',
+                object: 'userProfile',
+                property: 'personalLife.family.spouse',
+            },
+            details: {
+                groupLabel: 'Test Header',
+                label: 'Spouse?',
+                type: 'checkbox',
+            },
+        },
+        {
+            name: 'avatar',
+            databaseTarget: {
+                database: 'userDatabase',
+                object: 'userProfile',
+                property: 'avatar',
+            },
+            details: {
+                groupLabel: 'Image',
+                label: 'Avatar',
+                type: 'image',
+                mediaType: 'photo',
+            },
+        },
+
+        {
+            name: 'dietaryPreferences',
+            databaseTarget: {
+                database: 'userDatabase',
+                object: 'userProfile',
+                property: 'diet.dietaryPreferences',
+            },
+            details: {
+                groupLabel: 'Multiselect',
+                label: 'Dietary Preferences',
+                type: 'multiselect',
+                options: [
+                    {label: 'Vegan', value: 'vegan'},
+                    {label: 'Vegetarian', value: 'vegetarian'},
+                    {label: 'Gluten-Free', value: 'glutenFree'},
+                    {label: 'Dairy-Free', value: 'dairyFree'},
+                    {label: 'Nut-Free', value: 'nutFree'},
+                    {label: 'Halal', value: 'halal'},
+                    {label: 'Kosher', value: 'kosher'},
+                ],
+            },
+        },
+        {
+            name: 'subscriptionType',
+            databaseTarget: {
+                database: 'userDatabase',
+                object: 'userProfile',
+                property: 'subscription.type',
+            },
+            details: {
+                groupLabel: 'Subscription',
+                label: 'Subscription Type',
+                type: 'radio',
+                options: [
+                    {
+                        label: 'Free',
+                        value: 'free',
+                    },
+                    {
+                        label: 'Premium',
+                        value: 'premium',
+                    }
+                ],
+            },
+        },
+    ],
+};
+
+const formConfigObject: FormConfig = {
+    name: 'UserProfileForm',
+    objects: [
+        {
+            name: 'userProfile',
+            database: 'userDatabase',
+            apiConfig: {
+                baseApi: 'privateApi',
+                fetch: {
+                    endpoint: '/user/basic/',
+                    method: 'GET',
+                    params: {
+                        includeUserId: true,
+                    },
+                },
+                update: {
+                    endpoint: 'user/',
+                    method: 'PATCH',
+                    params: {
+                        includeUserId: true,
+                    },
+                },
+            },
+        },
+    ],
+    fields: [
+        {
+            name: 'theme',
+            databaseTarget: {
+                database: 'userDatabase',
+                object: 'userProfile',
+                property: 'theme',
+            },
+            details: {
+                groupLabel: 'App Setting',
+                label: 'Theme',
+                placeholder: 'Select a theme',
+                type: 'dropdown',
+                optionsApiConfig: {
+                    baseApi: 'configApi',
+                    endpoint: '/theme/all',
+                    method: 'GET',
+                    labelProperty: 'config.name',
+                    valueProperty: '_id',
+                },
+            },
+        },
         {
             name: 'workHours',
             details: {
@@ -117,15 +285,7 @@ const formConfigObject: FormConfig = {
                             groupLabel: 'Lifestyle',
                             label: 'Pets',
                             placeholder: 'Select the types of pets you have',
-                            type: 'input',
-                            options: [
-                                'Dog',
-                                'Cat',
-                                'Bird',
-                                'Fish',
-                                'Reptile',
-                                'Other',
-                            ], // Add more options as necessary
+                            type: 'input', // Add more options as necessary
                         },
                     },
                     {
@@ -141,67 +301,57 @@ const formConfigObject: FormConfig = {
                             label: 'Hobbies',
                             placeholder: 'Select your hobbies',
                             type: 'input',
-                            options: [
-                                'Reading',
-                                'Gaming',
-                                'Cooking',
-                                'Sports',
-                                'Music',
-                                'Art',
-                                'Other',
-                            ], // Add more options as necessary
                         },
                     },
                 ],
             },
         },
         {
-          name: 'family',
-          databaseTarget: {
-              database: 'userDatabase',
-              object: 'userProfile',
-              property: 'personalLife.family',
-          },
-          details: {
-              groupLabel: 'Lifestyle',
-              label: 'Family',
-              type: 'group',
-              fields: [
-                  {
-                      name: 'spouse',
-                      databaseTarget: {
-                          database: 'userDatabase',
-                          object: 'userProfile',
-                          property: 'personalLife.family.spouse',
-                      },
-                      details: {
-                        columns: 2,
-                          inputType: 'text',
-                          label: 'Spouse',
-                          placeholder: 'Do you have a spouse?',
-                          type: 'input',
-                      },
-                  },
-                  {
-                      name: 'children',
-                      databaseTarget: {
-                          database: 'userDatabase',
-                          object: 'userProfile',
-                          property:
-                              'personalLife.family.children',
-                      },
-                      details: {
-                        columns: 2,
-                          inputType: 'number',
-                          label: 'Number of Children',
-                          placeholder:
-                              'Enter the number of children you have',
-                          type: 'input',
-                      },
-                  },
-              ],
-          },
-      },
+            name: 'family',
+            databaseTarget: {
+                database: 'userDatabase',
+                object: 'userProfile',
+                property: 'personalLife.family',
+            },
+            details: {
+                groupLabel: 'Lifestyle',
+                label: 'Family',
+                type: 'group',
+                fields: [
+                    {
+                        name: 'spouse',
+                        databaseTarget: {
+                            database: 'userDatabase',
+                            object: 'userProfile',
+                            property: 'personalLife.family.spouse',
+                        },
+                        details: {
+                            columns: 2,
+                            inputType: 'text',
+                            label: 'Spouse',
+                            placeholder: 'Do you have a spouse?',
+                            type: 'input',
+                        },
+                    },
+                    {
+                        name: 'children',
+                        databaseTarget: {
+                            database: 'userDatabase',
+                            object: 'userProfile',
+                            property: 'personalLife.family.children',
+                        },
+                        details: {
+                            columns: 2,
+                            inputType: 'number',
+                            label: 'Number of Children',
+                            placeholder:
+                                'Enter the number of children you have',
+                            type: 'input',
+                        },
+                    },
+                ],
+            },
+        },
         {
             name: 'weightHeight',
             details: {

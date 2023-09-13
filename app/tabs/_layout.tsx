@@ -2,41 +2,40 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {Link, Stack, Tabs, useNavigation} from 'expo-router';
 import {AntDesign} from '@expo/vector-icons';
 import {Feather} from '@expo/vector-icons';
-import { Pressable, View, useColorScheme, } from 'react-native';
+import {Pressable, View, useColorScheme} from 'react-native';
 import * as NavigationBar from 'expo-navigation-bar';
 import Colors from '../../constants/Colors';
-import { useTheme } from '@react-navigation/native';
-import { CustomTheme } from 'theme/ICustomTheme';
+import {useTheme} from '@react-navigation/native';
+import {CustomTheme} from 'theme/ICustomTheme';
 import React from 'react';
 import handleTabPress from '../../utils/HandleTabPress';
-import { useUser } from '../../contexts/UserContext';
+import {useUser} from '../../contexts/UserContext';
+import IconComponent, { IconLibraryType } from '../../components/icon/IconComponent';
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
 function TabBarIcon(props: {
-    name: React.ComponentProps<typeof FontAwesome>['name'];
+    name: string;
+    library: IconLibraryType;
     color: string;
-    fontSize?: number;
+    size?: number;
 }) {
     return (
-        <FontAwesome
-            size={props.fontSize ? props.fontSize : 23}
+        <IconComponent
+            size={props.size ? props.size : 23}
             style={{marginBottom: -10}}
             {...props}
         />
     );
 }
 
-
-
 export default function TabLayout() {
     const colorScheme = useColorScheme();
-    const { theme } = useUser();
-    const { colors } = theme as CustomTheme;
+    const {theme} = useUser();
+    const {colors} = theme as CustomTheme;
     NavigationBar.setVisibilityAsync('hidden');
     NavigationBar.setBehaviorAsync('overlay-swipe');
 
-  
     const navigation = useNavigation();
     return (
         <>
@@ -48,9 +47,9 @@ export default function TabLayout() {
                     tabBarStyle: {
                         height: 70,
                         justifyContent: 'center',
-                        borderTopWidth:1,
+                        borderTopWidth: 1,
                         borderTopColor: colors.tabBorder,
-                        backgroundColor: colors.tabsBackground
+                        backgroundColor: colors.tabsBackground,
                     },
                     tabBarLabelStyle: {
                         fontWeight: 'bold',
@@ -59,17 +58,19 @@ export default function TabLayout() {
                         paddingBottom: 12,
                     },
                     headerStyle: {
-                      backgroundColor: colors?.tabsBackground,
-                    }
-                }}>
+                        backgroundColor: colors?.tabsBackground,
+                    },
+                }}
+            >
                 <Tabs.Screen
                     name="index"
                     options={{
                         title: 'Home',
                         tabBarIcon: ({color}) => (
-
                             <TabBarIcon
                                 name="home"
+                                library='Octicons'
+                                size={22}
                                 color={color}
                             />
                         ),
@@ -96,14 +97,20 @@ export default function TabLayout() {
                                 </Pressable>
                             </Link>
                         ),
-                        headerShown: false
+                        headerShown: false,
                     }}
-                    listeners={({ route }) => ({
-                        tabPress: (e:any) => {
-                          e.preventDefault();
-                          handleTabPress('index', navigation, ['index', 'test'], 'index', 'index');
+                    listeners={() => ({
+                        tabPress: (e: any) => {
+                            e.preventDefault();
+                            handleTabPress(
+                                'index',
+                                navigation,
+                                ['index', 'test'],
+                                'index',
+                                'index'
+                            );
                         },
-                      })}
+                    })}
                 />
                 <Tabs.Screen
                     name="health"
@@ -111,18 +118,26 @@ export default function TabLayout() {
                         title: 'Health',
                         tabBarIcon: ({color}) => (
                             <TabBarIcon
+                                library='FontAwesome'
                                 name="heartbeat"
                                 color={color}
+                                size={22}
                             />
                         ),
-                        headerShown: false
+                        headerShown: false,
                     }}
-                    listeners={({ route }) => ({
-                        tabPress: (e:any) => {
-                          e.preventDefault();
-                          handleTabPress('health', navigation, ['index', 'test'], 'health', 'index');
+                    listeners={() => ({
+                        tabPress: (e: any) => {
+                            e.preventDefault();
+                            handleTabPress(
+                                'health',
+                                navigation,
+                                ['index', 'test'],
+                                'health',
+                                'index'
+                            );
                         },
-                      })}
+                    })}
                 />
                 <Tabs.Screen
                     name="add"
@@ -157,36 +172,47 @@ export default function TabLayout() {
                                 })}
                             />
                         ),
-                        headerShown: false
+                        headerShown: false,
                     }}
-                    listeners={({ route }) => ({
-                        tabPress: (e:any) => {
-                          e.preventDefault();
-                          handleTabPress('add', navigation, ['index', 'test'], 'add', 'index');
+                    listeners={() => ({
+                        tabPress: (e: any) => {
+                            e.preventDefault();
+                            handleTabPress(
+                                'add',
+                                navigation,
+                                ['index', 'test'],
+                                'add',
+                                'index'
+                            );
                         },
-                      })}
+                    })}
                 />
                 <Tabs.Screen
                     name="coach"
                     options={{
                         title: 'Coach',
                         tabBarIcon: ({color}) => (
-                            <View style={{paddingTop: 8}}>
-                                <Feather
-                                    name="user"
-                                    size={26}
-                                    color={color}
-                                />
-                            </View>
+                            <TabBarIcon
+                                name="user"
+                                library='Feather'
+                                size={24}
+                                color={color}
+                            />
                         ),
-                        headerShown: false
+                        headerShown: false,
                     }}
-                    listeners={({ route }) => ({
-                        tabPress: (e:any) => {
-                          e.preventDefault();
-                          handleTabPress('coach', navigation, ['index', 'test'], 'coach', 'index');
+                    listeners={() => ({
+                        tabPress: (e: any) => {
+                            e.preventDefault();
+                            handleTabPress(
+                                'coach',
+                                navigation,
+                                ['index', 'test'],
+                                'coach',
+                                'index'
+                            );
                         },
-                      })}
+                    })}
                 />
                 <Tabs.Screen
                     name="more"
@@ -194,19 +220,26 @@ export default function TabLayout() {
                         title: 'More',
                         tabBarIcon: ({color}) => (
                             <TabBarIcon
-                                fontSize={30}
-                                name="ellipsis-h"
+                            size={40}
+                                library="MaterialIcons"
+                                name="more-horiz"
                                 color={color}
                             />
                         ),
-                        headerShown: false
+                        headerShown: false,
                     }}
-                    listeners={({ route }) => ({
-                        tabPress: (e:any) => {
-                          e.preventDefault();
-                          handleTabPress('more', navigation, ['index', 'test'], 'more', 'index');
+                    listeners={() => ({
+                        tabPress: (e: any) => {
+                            e.preventDefault();
+                            handleTabPress(
+                                'more',
+                                navigation,
+                                ['index', 'test'],
+                                'more',
+                                'index'
+                            );
                         },
-                      })}
+                    })}
                 />
             </Tabs>
         </>

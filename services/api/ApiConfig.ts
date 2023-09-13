@@ -2,10 +2,10 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // 5001
-const BASE_URL = 'https://3007-2a02-a210-2143-5580-cc48-7f53-3b47-8bf7.ngrok.io';
+const BASE_URL = 'https://28b5-188-241-144-72.ngrok.io';
 
 //4001
-const CONFIG_URL = 'https://9e25-2a02-a210-2143-5580-cc48-7f53-3b47-8bf7.ngrok.io';
+const CONFIG_URL = 'https://9a8e-188-241-144-72.ngrok.io';
 
 const publicApi = axios.create({
   baseURL: `${BASE_URL}/api/public`,
@@ -46,4 +46,15 @@ function getSyncEndpoint(dataType: string, isConfigData: boolean = false): strin
   return `${baseURL}/api/private/${dataType}/sync`;
 }
 
-export { publicApi, privateApi, configApi, getSyncEndpoint };
+
+function getApiInstance(api: string) {
+  const apiMap: { [key: string]: any } = {
+    publicApi,
+    privateApi,
+    configApi,
+  };
+
+  return apiMap[api] || null;
+}
+
+export { publicApi, privateApi, configApi, getSyncEndpoint, getApiInstance };

@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { CustomTheme } from '../../../theme/ICustomTheme';
 import * as ImagePicker from 'expo-image-picker';
+import { useUser } from '../../../contexts/UserContext';
 
 interface FormImageFieldProps {
   label?: string;
@@ -15,7 +16,8 @@ export function FormImageField({
   onImageSelected,
   mediaType = 'photo',
 }: FormImageFieldProps) {
-  const { colors } = useTheme() as CustomTheme;
+  const { theme } = useUser();
+  const { colors } = theme as CustomTheme;
   const [imageUri, setImageUri] = useState<string | null>(null);
 
   const handleImagePicker = async () => {
@@ -34,12 +36,12 @@ export function FormImageField({
 
   return (
     <View style={styles.root}>
-      <Text style={styles.label}>{label}</Text>
-      <TouchableOpacity onPress={handleImagePicker} style={styles.imageContainer}>
+      <Text style={[styles.label, {color: colors.text}]}>{label}</Text>
+      <TouchableOpacity onPress={handleImagePicker} style={[styles.imageContainer, {backgroundColor: colors.fieldBackground}]}>
         {imageUri ? (
           <Image source={{ uri: imageUri }} style={styles.image} />
         ) : (
-          <Text style={styles.placeholder}>Tap to select an image</Text>
+          <Text style={[styles.placeholder, {color: colors.lightFontFade}]}>{'Tap to select an image'}</Text>
         )}
       </TouchableOpacity>
     </View>
@@ -51,7 +53,6 @@ const styles = StyleSheet.create({
     height: 100,
   },
   label: {
-    color: '#FFF',
     fontSize: 12,
     lineHeight: 21,
     marginBottom: 5,
@@ -61,7 +62,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.10)',
   },
   image: {
     width: '100%',
@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   placeholder: {
-    color: '#FFF',
     fontSize: 14,
   },
 });

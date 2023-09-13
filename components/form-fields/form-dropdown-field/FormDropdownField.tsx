@@ -1,96 +1,87 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import { useTheme } from '@react-navigation/native';
-import { CustomTheme } from '../../../theme/ICustomTheme';
-import IconComponent from '../../icon/IconComponent';
+import React, {useState} from 'react';
+import {
+    StyleSheet,
+    View,
+    Text,
+} from 'react-native';
+import {CustomTheme} from '../../../theme/ICustomTheme';
+import {Picker} from '@react-native-picker/picker';
+import { useUser } from '../../../contexts/UserContext';
 
 interface FormDropdownFieldProps {
-  label?: string;
-  placeholder?: string;
-  options?: string[];
-  selectedOption?: string;
-  onOptionSelect?: (option: string) => void;
+    label?: string;
+    placeholder?: string;
+    options?: {label: string; value: any}[];
+    selectedOption?: any;
+    onOptionSelect?: (option: any) => void;
 }
 
 export function FormDropdownField({
-  label = "Select an option",
-  placeholder = "Choose...",
-  options = [],
-  selectedOption: propSelectedOption,
-  onOptionSelect,
+    label = 'Select an option',
+    placeholder = 'Choose...',
+    options = [],
+    selectedOption: propSelectedOption,
+    onOptionSelect,
 }: FormDropdownFieldProps) {
-  const { colors } = useTheme() as CustomTheme;
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(propSelectedOption);
-
-  return (
-    <View style={styles.root}>
-      <Text style={styles.label}>{label}</Text>
-      <View style={styles.container}>
-        <TouchableOpacity onPress={() => setIsOpen(!isOpen)} style={styles.inputContainer}>
-          <TextInput
-            style={{ ...styles.input, color: colors.text }}
-            placeholder={placeholder}
-            placeholderTextColor={colors.text}
-            value={selectedOption}
-            editable={false}
-          />
-          <View style={{ marginRight:10 }}>
-            <IconComponent name="caretdown" library="AntDesign" size={16} color={colors.text} />
+  const { theme } = useUser();
+  const { colors } = theme as CustomTheme;
+    const [selectedOption, setSelectedOption] = useState(propSelectedOption);
+    return (
+      <View style={styles.root}>
+          <Text style={[styles.label, {color: colors.text}]}>{label}</Text>
+          <View style={styles.container}>
+              <View style={[styles.inputContainer, {backgroundColor: colors.fieldBackground}]}>
+                  <Picker
+                      selectedValue={selectedOption}
+                      onValueChange={(itemValue) => {
+                          setSelectedOption(itemValue);
+                          onOptionSelect && onOptionSelect(itemValue);
+                      }}
+                      style={[styles.input, {color: colors.text}]}
+                      dropdownIconColor={colors.text}
+                  >
+                      <Picker.Item
+                          label={placeholder}
+                          value={null}
+                          color={colors.lightFontFade} // Set a placeholder color from the theme
+                      />
+                      {options.map((option, index) => (
+                          <Picker.Item
+                              key={index}
+                              label={String(option.label)}
+                              value={String(option.value)}
+                              color={colors.text} // Set an option color from the theme
+                          />
+                      ))}
+                  </Picker>
+              </View>
           </View>
-        </TouchableOpacity>
-        {isOpen && (
-          <View style={styles.dropdown}>
-            {options.map(option => (
-              <TouchableOpacity key={option} onPress={() => {
-                setIsOpen(false);
-                setSelectedOption(option); // Set the selected option
-                onOptionSelect && onOptionSelect(option);
-              }}>
-                <Text style={styles.option}>{option}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        )}
       </View>
-    </View>
   );
 }
 
 const styles = StyleSheet.create({
   root: {
-    height: 70,
+      height: 70,
   },
   container: {
-    flex: 1,
-    width: '100%'
+      flex: 1,
+      width: '100%',
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.10)',
-    borderRadius: 6,
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderRadius: 6,
   },
   input: {
-    fontSize: 14,
-    padding: 10,
-    flex: 1,
+      fontSize: 14,
+      padding: 10,
+      flex: 1,
   },
   label: {
-    color: '#FFF',
-    fontSize: 12,
-    lineHeight: 21,
-    marginBottom: 5,
-  },
-  dropdown: {
-    marginTop: 5,
-    borderRadius: 6,
-    zIndex: 999,
-    backgroundColor: '#193141',
-  },
-  option: {
-    padding: 10,
-    color: '#FFF',
+      fontSize: 12,
+      lineHeight: 21,
+      marginBottom: 5,
   },
 });
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, TextInput, Text } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { CustomTheme } from '../../../theme/ICustomTheme';
+import { useUser } from '../../../contexts/UserContext';
 
 interface FormInputFieldProps {
   label?: string;
@@ -25,26 +26,28 @@ export function FormInputField({
   secureTextEntry = false,
   // ... other props
 }: FormInputFieldProps) {
-  const { colors } = useTheme() as CustomTheme;
+
+  const { theme } = useUser();
+  const { colors } = theme as CustomTheme;
   const keyboardType = inputType === 'number' ? 'numeric' : 'default';
 
   return (
     <View style={styles.root}>
-    <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, {color: colors.text}]}>{label}</Text>
       <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={{ ...styles.input, color: colors.text }}
-          placeholder={placeholder}
-          placeholderTextColor={colors.text}
-          onChangeText={onChangeText}
-          value={value?.toString()}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          secureTextEntry={secureTextEntry}
-          keyboardType={keyboardType}
-        />
-      </View>
+        <View style={[styles.inputContainer, {backgroundColor: colors.fieldBackground}]}>
+          <TextInput
+            style={[styles.input, {color: colors.text}]}
+            placeholder={placeholder}
+            placeholderTextColor={colors.lightFontFade}
+            onChangeText={onChangeText}
+            value={value?.toString()}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            secureTextEntry={secureTextEntry}
+            keyboardType={keyboardType}
+          />
+        </View>
       </View>
     </View>
   );
@@ -59,17 +62,16 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   inputContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.10)',
     borderRadius: 6,
     height: 46, 
   },
   input: {
     fontSize: 14,
-    padding: 10, 
+    paddingHorizontal: 15,
+    paddingVertical: 10, 
     flex: 1, 
   },
   label: {
-    color: '#FFF',
     fontSize: 12,
     lineHeight: 21, 
     marginBottom: 5, 
